@@ -1,0 +1,4 @@
+services:
+#    elephantly_amp_converter.example:
+#        class: Elephantly\AmpConverterBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

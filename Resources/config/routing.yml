@@ -1,0 +1,3 @@
+elephantly_amp_converter_homepage:
+    path:     /
+    defaults: { _controller: ElephantlyAmpConverterBundle:Default:index }
