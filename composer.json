@@ -1,0 +1,31 @@
+{
+    "name": "elephantly/amp-converter-bundle",
+    "type": "project",
+    "description": "Amp Converter for Symfony",
+    "version": "0.0.1",
+    "time": "2017/05/10",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "PurpleBabar",
+            "email": "lalung.alexandre@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "marc1706/fast-image-size": "1.*"
+    },
+    "require-dev": {
+        "kahlan/kahlan": "^3.1"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "psr-4": {
+            "Elephantly\\AmpConverterBundle\\": ""
+        }
+    },
+    "prefer-stable": true
+}

@@ -1,4 +1,8 @@
 services:
-#    elephantly_amp_converter.example:
-#        class: Elephantly\AmpConverterBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    elephantly.converters:
+        class: Elephantly\AmpConverterBundle\Converter\ConverterChain
+    
+    elephantly.amp_img_converter:
+        class: Elephantly\AmpConverterBundle\Converter\Media\AmpImgConverter
+        tags:
+            - { name: elephanty.amp_converter }

@@ -4,6 +4,7 @@ namespace Elephantly\AmpConverterBundle\Converter;
 
 use DOMDocument;
 use Elephantly\AmpConverterBundle\Converter\Media\AmpImgConverter;
+use Elephantly\AmpConverterBundle\Converter\ConverterChain;
 
 /**
 * primary @author purplebabar(lalung.alexandre@gmail.com)
@@ -16,35 +17,62 @@ class AmpConverter
     
     protected $options;
 
-    function __construct($input, $options = array())
+    protected $converters;
+
+    function __construct($converters = array(), $options = array())
     {
-        $this->input = $input;
+        $this->options = $options;
+        $this->converters = $converters;
+        if ($converters instanceof ConverterChain) {
+            $this->converters = $converters->getConverters();
+        }
     }
-
-    public function convert()
+    
+    public function convert($input)
     {
-
-        $document = $this->getDom();
+        if (!$input) {
+            return '';
+        }
+        $document = $this->getDom($input);  
         
-        // TODO: automate work here
-        $img = $document->getElementsByTagName("img")->item(0);
-        $imgConverter = new AmpImgConverter();
-        $ampImage = $imgConverter->convertToAmp($img);
-        $img->parentNode->replaceChild($ampImage, $img);
+        foreach ($this->converters as $tag => $converterClass) {
 
-        return $document;
+            $tags = $this->getMatchingTags($document, $tag);
+            $converter = new $converterClass();
+
+            $tabsLength = $tags->length;
+            
+            for ($i = 0; $i < $tabsLength ; $i++) {
+                $this->convertTag($tags->item(0), $converter);
+            }
+            
+        }
+        
+        $output = $document->saveHTML();
+        return trim($output);
 
     }
 
-    public function getDom()
+    private function getDom($input)
     {
         $document = new DOMDocument();
         libxml_use_internal_errors(true);
-        $document->loadHTML($this->input);
-        // $document->encoding = 'UTF-8';
+        $document->loadHTML($input, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $document->encoding = 'UTF-8';
         libxml_clear_errors();
         
         return $document;
+    }
+
+    private function getMatchingTags(DOMDocument $document, $tag)
+    {
+        return $document->getElementsByTagName($tag);
+    }
+    
+    private function convertTag($tag, $converter)
+    {
+        $ampTag = $converter->convertToAmp($tag);
+        $tag->parentNode->replaceChild($ampTag, $tag);
     }
     
 }

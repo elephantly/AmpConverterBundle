@@ -7,6 +7,7 @@ namespace Elephantly\AmpConverterBundle\Converter;
 */
 interface AmpTagConverterInterface
 {
+    function __construct();
     public function convertToAmp($element);
     public function getTagName();
     public function getAmpTagName();
