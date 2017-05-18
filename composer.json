@@ -14,7 +14,8 @@
     ],
     "require": {
         "php": ">=5.3.0",
-        "marc1706/fast-image-size": "1.*"
+        "marc1706/fast-image-size": "1.*",
+        "symfony/css-selector": "2.8.*"
     },
     "require-dev": {
         "kahlan/kahlan": "^3.1"

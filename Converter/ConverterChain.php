@@ -15,7 +15,7 @@ class ConverterChain
 
     public function addConverter(AmpTagConverterInterface $converter)
     {
-        $this->converters[$converter->getTagName()] = $converter;
+        $this->converters[$converter->getSelector()] = $converter;
     }
     
     public function getConverters()

@@ -6,3 +6,13 @@ services:
         class: Elephantly\AmpConverterBundle\Converter\Media\AmpImgConverter
         tags:
             - { name: elephanty.amp_converter }
+    
+    elephantly.amp_twitter_converter:
+        class: Elephantly\AmpConverterBundle\Converter\Social\AmpTwitterConverter
+        tags:
+            - { name: elephanty.amp_converter }
+
+    elephantly.amp_instagram_converter:
+        class: Elephantly\AmpConverterBundle\Converter\Social\AmpInstagramConverter
+        tags:
+            - { name: elephanty.amp_converter }

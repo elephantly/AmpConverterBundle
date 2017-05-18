@@ -11,30 +11,56 @@ class AmpTagConverter
 
     protected $mandatoryAttributes = array();
     
-    protected $element = null;
+    protected $inputElement = null;
+
+    protected $outputElement = null;
+
+    protected $options = array();
 
     public function getAmpCommonAttributes()
     {
         return array('fallback', 'heights', 'layout', 'media', 'noloading', 'on', 'placeholder', 'sizes', 'width', 'height');
     }
     
+    private function canBeConverted($attribute)
+    {
+        $regex = '/';
+        foreach($this->getAmpAttributes() as $ampAttribute) {
+            $ampAttribute = preg_replace('/\*/', '\w+', $ampAttribute);
+            $regex .= $ampAttribute.'|';
+        }
+        $regex = rtrim($regex,"| ");
+        $regex .= '+/';
+
+        return preg_match($regex, $attribute);
+    }
+
     public function convertToAmp($element)
     {
-        $this->element = $element;
+        $this->inputElement = $element;
         
-        $ampElement = $element->ownerDocument->createElement($this->getAmpTagName());
-        foreach ($this->getAmpAttributes() as $attribute) {
-            if ($element->hasAttribute($attribute)) {
-                $ampElement->setAttribute($attribute, $element->getAttribute($attribute));
+        $this->setup();
+
+        if (!$this->inputIsValid()) {
+            return null;
+        }
+        
+        $this->outputElement = $this->inputElement->ownerDocument->createElement($this->getAmpTagName());
+        foreach ($this->inputElement->attributes as $attrName => $attrNode) {
+            if ($this->canBeConverted($attrName)) {
+                 $this->outputElement->setAttribute($attrName, $attrNode->value);
             }
         }
+
         foreach ($this->getMandatoryAttributes() as $mandatoryAttribute) {
-            if (!$ampElement->hasAttribute($mandatoryAttribute)) {
-                $ampElement->setAttribute($mandatoryAttribute, $this->getDefaultValue($mandatoryAttribute, $element));
+            if (!$this->outputElement->hasAttribute($mandatoryAttribute)) {
+                $this->outputElement->setAttribute($mandatoryAttribute, $this->getDefaultValue($mandatoryAttribute, $this->inputElement));
             }
         }
-        // TODO: add a general callback for fixed images
-        return $ampElement;
+
+        $this->callback();
+
+        return $this->outputElement;
     }
 
     public function getAmpAttributes()
