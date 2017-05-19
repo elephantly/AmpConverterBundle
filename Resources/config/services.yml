@@ -1,6 +1,11 @@
 services:
     elephantly.converters:
         class: Elephantly\AmpConverterBundle\Converter\ConverterChain
+
+    # elephantly.amp_script_deleter:
+    #     class: Elephantly\AmpConverterBundle\Converter\Common\AmpScriptDeleter
+    #     tags:
+    #         - { name: elephanty.amp_converter }
     
     elephantly.amp_img_converter:
         class: Elephantly\AmpConverterBundle\Converter\Media\AmpImgConverter

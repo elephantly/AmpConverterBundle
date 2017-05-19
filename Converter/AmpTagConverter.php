@@ -15,11 +15,13 @@ class AmpTagConverter
 
     protected $outputElement = null;
 
+    protected $isInputValid = true;
+
     protected $options = array();
 
     public function getAmpCommonAttributes()
     {
-        return array('fallback', 'heights', 'layout', 'media', 'noloading', 'on', 'placeholder', 'sizes', 'width', 'height');
+        return array('fallback', 'heights', 'layout', 'media', 'noloading', 'on', 'placeholder', 'sizes', 'width', 'height', 'class');
     }
     
     private function canBeConverted($attribute)
@@ -27,10 +29,10 @@ class AmpTagConverter
         $regex = '/';
         foreach($this->getAmpAttributes() as $ampAttribute) {
             $ampAttribute = preg_replace('/\*/', '\w+', $ampAttribute);
-            $regex .= $ampAttribute.'|';
+            $regex .= '^'.$ampAttribute.'$|';
         }
         $regex = rtrim($regex,"| ");
-        $regex .= '+/';
+        $regex .= '/';
 
         return preg_match($regex, $attribute);
     }
@@ -40,11 +42,11 @@ class AmpTagConverter
         $this->inputElement = $element;
         
         $this->setup();
-
-        if (!$this->inputIsValid()) {
+        
+        if (!$this->isInputValid) {
             return null;
         }
-        
+
         $this->outputElement = $this->inputElement->ownerDocument->createElement($this->getAmpTagName());
         foreach ($this->inputElement->attributes as $attrName => $attrNode) {
             if ($this->canBeConverted($attrName)) {
@@ -59,6 +61,8 @@ class AmpTagConverter
         }
 
         $this->callback();
+        
+        $this->inputElement = null;
 
         return $this->outputElement;
     }

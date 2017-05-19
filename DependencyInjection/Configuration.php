@@ -28,6 +28,7 @@ class Configuration implements ConfigurationInterface
                         ->booleanNode('amp_anim')->defaultValue(true)->end()
                     ->end()
                 ->end()
+                ->scalarNode('illegal')->defaultValue(array('script'))->end()
             ->end()
         ;
 

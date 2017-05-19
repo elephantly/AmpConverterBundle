@@ -47,6 +47,9 @@ class AmpImgConverter extends AmpTagConverter implements AmpTagConverterInterfac
     
     public function setup()
     {
+        if (!$imageInfo = $this->getImageInfo()) {
+            $this->isInputValid = false;
+        }
     }
 
     public function callback()
@@ -101,17 +104,20 @@ class AmpImgConverter extends AmpTagConverter implements AmpTagConverterInterfac
     
     public function hasScriptTag()
     {
+        if ((isset($this->options['amp_anim']) && $this->options['amp_anim'])) {
+            return true;
+        }
         return false;
     }
-    
-    public function inputIsValid()
-    {
-        if (!$imageInfo = $this->getImageInfo()) {
-            return false;
-        }
-        return true;
-    }
 
+    public function getScriptTag()
+    {
+        if ($this->hasScriptTag()) {
+            return '<script async custom-element="amp-anim" src="https://cdn.ampproject.org/v0/amp-anim-0.1.js"></script>';
+        }
+        return null;
+    }
+    
     public function getWidth()
     {
         if (!$imageInfo = $this->getImageInfo()) {

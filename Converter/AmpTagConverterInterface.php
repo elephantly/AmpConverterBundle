@@ -11,10 +11,10 @@ interface AmpTagConverterInterface
     public function convertToAmp($element);
     public static function getIdentifier();
     public function hasScriptTag();
+    public function getScriptTag();
     public function getSelector();
     public function getAmpTagName();
     public function getDefaultValue($attribute);
     public function callback();
     public function setup();
-    public function inputIsValid();
 }

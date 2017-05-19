@@ -38,24 +38,62 @@ class AmpConverter
         }
         $document = $this->getDom($input);  
         
+        // delete illegal
+        foreach ($this->options['illegal'] as $selector) {
+            // if body exists, select all illegal elements inside of it
+            $bodyExists = $this->getMatchingTags($document, 'body');
+            if ($bodyExists->length) {
+                $selector = 'body '.$selector;
+            }
+
+            $tags = $this->getMatchingTags($document, $selector);
+                        
+            foreach ($tags as $tag) {
+                $this->deleteTag($tag);
+            }
+
+        }
+        
+        // convert Tags
         foreach ($this->converters as $selector => $converterClass) {
 
             $tags = $this->getMatchingTags($document, $selector);
-            $identifier = $converterClass::getIdentifier();
-            $tagOptions = isset($this->options[$identifier]) ? $this->options[$identifier]:array();
-            $converter = new $converterClass($tagOptions);
 
-            $tagsLength = $tags->length;
-            
-            for ($i = 0; $i < $tagsLength ; $i++) {
-                $this->convertTag($tags->item(0), $converter);
+            $converter = $this->getConverter($converterClass);
+                        
+            foreach ($tags as $tag) {
+                $this->convertTag($tag, $converter);
             }
-            
+
         }
-        
+
         $output = $document->saveHTML();
         return trim($output);
 
+    }
+
+    public function getAmpScripts($input)
+    {
+        $scripts = array();
+
+        if (!$input) {
+            return '';
+        }
+        
+        $document = $this->getDom($input);
+        
+        foreach ($this->converters as $selector => $converterClass) {
+            
+            $tags = $this->getMatchingTags($document, $selector);
+            $converter = $this->getConverter($converterClass);
+
+            if ($tags->length && $converter->hasScriptTag()) {
+                $scripts[] = $converter->getScriptTag();
+            }
+    
+        }
+        
+        return implode('', $scripts);
     }
 
     private function getDom($input)
@@ -79,25 +117,31 @@ class AmpConverter
         $elements = $xpath->query($xpathSelector);
         return $elements;
     }
+
+    private function getConverter($converterClass)
+    {
+        $identifier = $converterClass::getIdentifier();
+        $tagOptions = isset($this->options[$identifier]) ? $this->options[$identifier]:array();
+        $converter = new $converterClass($tagOptions);
+        return $converter;
+    }
     
     private function convertTag($tag, $converter)
     {
-        // Delete the script tag associated
-        if ($converter->hasScriptTag()) {
-            if ($tag->nextSibling) {
-                $tag->parentNode->removeChild($tag->nextSibling);
-            }elseif ($tag->parentNode instanceof DOMDocument) {
-                //special case where the script and the element are sibling of DomDocument
-                $scriptTag = $tag->parentNode->getElementsByTagName('script')->item(0);
-                $scriptTag->parentNode->removeChild($scriptTag);
-            }
-        }
         $ampTag = $converter->convertToAmp($tag);
+
+        $parent = $tag->parentNode;
+        
         if ($ampTag) {
-            $tag->parentNode->replaceChild($ampTag, $tag);
-        }else {
-            $tag->parentNode->removeChild($tag);
+            $parent->replaceChild($ampTag, $tag);
         }
+
+    }
+
+    private function deleteTag($tag)
+    {
+        $parent = $tag->parentNode;
+        $parent->removeChild($tag);
     }
     
 }

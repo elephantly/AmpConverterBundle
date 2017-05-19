@@ -13,11 +13,6 @@ use Elephantly\AmpConverterBundle\Client\OEmbedClient;
 */
 class AmpInstagramConverter extends AmpTagConverter implements AmpTagConverterInterface
 {
-    protected $link = null;
-
-    protected $oembed = null;
-
-    const INSTAGRAM_OEMBED = 'https://api.instagram.com/oembed/?url=';
 
     function __construct($options = array())
     {

@@ -14,6 +14,8 @@ use DOMXPath;
 */
 class AmpTwitterConverter extends AmpTagConverter implements AmpTagConverterInterface
 {
+    protected $link = null;
+    
     function __construct($options = array())
     {
         $this->attributes = array('data-*', 'data-tweetid');
@@ -27,10 +29,7 @@ class AmpTwitterConverter extends AmpTagConverter implements AmpTagConverterInte
             case 'layout':
                 return 'responsive';
             case 'data-tweetid':
-                $xpath = new DOMXPath($this->inputElement->ownerDocument);
-                $elements = $xpath->query($this->inputElement->getNodePath().'/a');
-                $link = $elements->item(0)->getAttribute('href');
-                preg_match('/https:\/\/twitter\.com\/\w*\/status\/(\d+)/', $link, $ids);
+                preg_match('/https:\/\/twitter\.com\/\w*\/[status[es]*\/(\d+)/', $this->link, $ids);
                 if (!isset($ids[1])) {
                     return null;
                 }
@@ -58,6 +57,12 @@ class AmpTwitterConverter extends AmpTagConverter implements AmpTagConverterInte
 
     public function setup()
     {
+        $xpath = new DOMXPath($this->inputElement->ownerDocument);
+        $elements = $xpath->query($this->inputElement->getNodePath().'/a');
+        if ($elements->length) {
+            $this->link = $elements->item(0)->getAttribute('href');
+        }
+        $this->isInputValid = $elements->length;
     }
 
     public function callback()
@@ -84,15 +89,15 @@ class AmpTwitterConverter extends AmpTagConverter implements AmpTagConverterInte
     {
         return 'amp-twitter';
     }
-    
-    public function inputIsValid()
-    {
-        return true;
-    }
 
     public function hasScriptTag()
     {
         return true;
+    }
+
+    public function getScriptTag()
+    {
+        return '<script async custom-element="amp-twitter" src="https://cdn.ampproject.org/v0/amp-twitter-0.1.js"></script>';
     }
     
 }

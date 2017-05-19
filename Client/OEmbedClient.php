@@ -20,6 +20,7 @@ class OEmbedClient extends BuzzBrowser
     */
     public function getOEmbed($url)
     {
+        $this->setClient(new Curl());
         $response = $this->get($url);
 
         $content = $response->getContent();
