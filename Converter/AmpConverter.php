@@ -36,22 +36,25 @@ class AmpConverter
         if (!$input) {
             return '';
         }
-        $document = $this->getDom($input);  
+
+        $document = $this->getDom($input);
         
-        // delete illegal
-        foreach ($this->options['illegal'] as $selector) {
-            // if body exists, select all illegal elements inside of it
-            $bodyExists = $this->getMatchingTags($document, 'body');
-            if ($bodyExists->length) {
-                $selector = 'body '.$selector;
-            }
+        // delete illegal if illegals are specified
+        if (isset($this->options['illegal'])) {
+            foreach ($this->options['illegal'] as $selector) {
+                // if body exists, select all illegal elements inside of it
+                $bodyExists = $this->getMatchingTags($document, 'body');
+                if ($bodyExists->length) {
+                    $selector = 'body '.$selector;
+                }
 
-            $tags = $this->getMatchingTags($document, $selector);
-                        
-            foreach ($tags as $tag) {
-                $this->deleteTag($tag);
-            }
+                $tags = $this->getMatchingTags($document, $selector);
+                            
+                foreach ($tags as $tag) {
+                    $this->deleteTag($tag);
+                }
 
+            }
         }
         
         // convert Tags
@@ -66,8 +69,10 @@ class AmpConverter
             }
 
         }
-
-        $output = $document->saveHTML();
+        
+        // Workaround 2 Working for 53
+        // https://stackoverflow.com/questions/5706086/php-domdocument-output-without-xml-version-1-0-encoding-utf-8
+        $output = $document->saveXML($document->documentElement->firstChild->firstChild);
         return trim($output);
 
     }
@@ -99,9 +104,20 @@ class AmpConverter
     private function getDom($input)
     {
         $document = new DOMDocument();
-        libxml_use_internal_errors(true);
-        $document->loadHTML($input, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         $document->encoding = 'UTF-8';
+        libxml_use_internal_errors(true);
+        // not working in 53
+        // see https://stackoverflow.com/questions/4879946/how-to-savehtml-of-domdocument-without-html-wrapper
+        // $document->loadHTML($input, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+
+        // WORKAROUND 1 not working either
+        // $fragment = $document->createDocumentFragment();
+        // $fragment->appendXML($input);
+        // 
+        // $document->appendChild($fragment);
+
+        $document->loadHTML($input);
+        
         libxml_clear_errors();
         
         return $document;

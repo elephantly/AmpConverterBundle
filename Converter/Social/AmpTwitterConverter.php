@@ -68,7 +68,8 @@ class AmpTwitterConverter extends AmpTagConverter implements AmpTagConverterInte
     public function callback()
     {
         // Testing if output is valid
-        $isValid = $this->outputElement->hasAttribute('data-tweetid') && !empty($this->outputElement->getAttribute('data-tweetid'));
+        $tweetId = $this->outputElement->hasAttribute('data-tweetid');
+        $isValid = $tweetId && !empty($tweetId);
         if (!$isValid) {
             $this->outputElement = null;
             return;
