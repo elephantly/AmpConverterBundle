@@ -72,7 +72,8 @@ class AmpConverter
         
         // Workaround 2 Working for 53
         // https://stackoverflow.com/questions/5706086/php-domdocument-output-without-xml-version-1-0-encoding-utf-8
-        $output = $document->saveXML($document->documentElement->firstChild->firstChild);
+        // $output = $document->saveXML($document->documentElement->firstChild->firstChild); still not working
+        $output = $document->saveXML($document->documentElement); // seems to be valid
         return trim($output);
 
     }
