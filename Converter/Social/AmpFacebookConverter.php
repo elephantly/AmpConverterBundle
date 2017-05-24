@@ -11,14 +11,14 @@ use Elephantly\AmpConverterBundle\Client\OEmbedClient;
 /**
 * primary @author purplebabar(lalung.alexandre@gmail.com)
 */
-class AmpInstagramConverter extends AmpTagConverter implements AmpTagConverterInterface
+class AmpFacebookConverter extends AmpTagConverter implements AmpTagConverterInterface
 {
 
     function __construct($options = array())
     {
-        $this->attributes = array('data-captioned', 'data-shortcode');
-        $this->mandatoryAttributes = array('layout', 'data-shortcode', 'height', 'width');
-        $this->options = $options;    
+        $this->attributes = array('data-href', 'data-embed-as');
+        $this->mandatoryAttributes = array('layout', 'data-href', 'height', 'width');
+        $this->options = $options;
     }
     
     public function getDefaultValue($attribute)
@@ -26,17 +26,15 @@ class AmpInstagramConverter extends AmpTagConverter implements AmpTagConverterIn
         switch ($attribute) {
             case 'layout':
                 return 'responsive';
-            case 'data-shortcode':
-                preg_match('/https:\/\/www\.instagram\.com\/p\/([\w-]+)\//', $this->link, $ids);
-                if (!isset($ids[1])) {
-                    return null;
-                }
-                $shortcode = $ids[1];
-                return $shortcode;
-            case 'width':
-                return $this->oembed['width'];
+            case 'data-href':
+                $src = $this->inputElement->getAttribute('src');
+                $fbUrl = parse_url($src);
+                parse_str($fbUrl['query'], $fbUrl);
+                return $fbUrl['href'];
             case 'height':
-                return $this->oembed['height'] ? $this->oembed['height'] : 400;
+                return $this->inputElement->getAttribute('height');
+            case 'width':
+                return $this->inputElement->getAttribute('width');
             default:
                 return null;
         }
@@ -44,44 +42,40 @@ class AmpInstagramConverter extends AmpTagConverter implements AmpTagConverterIn
     
     public function setup()
     {
-        $xpath = new DOMXPath($this->inputElement->ownerDocument);
-        $elements = $xpath->query($this->inputElement->getNodePath().'/div/p/a');
-        if ($elements->length) {
-            $this->link = $elements->item(0)->getAttribute('href');
-            try {
-                $oEmbedClient = new OEmbedClient();
-                $this->oembed = $oEmbedClient->getOEmbed(self::INSTAGRAM_OEMBED.$this->link);
-            } catch (RequestException $e) {
-                $this->oembed = null;
-                $this->isInputValid = false;
-            }
-            return;
-        }else {
-            $this->isInputValid = false;
-        }
+        
     }
 
     public function callback()
     {
-        if (!$this->outputElement->getAttribute('data-shortcode')) {
-            $this->outputElement = null;
+        $src = $this->outputElement->getAttribute('src');
+        preg_match('/https:\/\/www.facebook\.com\/\w*\/(\w*)\/\d*/', $src, $embedType);
+        switch ($embedType) {
+            case 'videos':
+                $embedOut = 'video';
+                break;
+            case 'posts':
+                $embedOut = 'post';
+                break;
+            default:
+                $embedOut = 'post';
+                break;
         }
-        
+        $this->outputElement->setAttribute('data-embed-as', $embedOut);
     }
 
     public static function getIdentifier()
     {
-        return 'instagram';
+        return 'facebook';
     }
 
     public function getSelector()
     {
-        return 'blockquote.instagram-media';
+        return 'iframe[src*="facebook.com"]';
     }
 
     public function getAmpTagName()
     {
-        return 'amp-instagram';
+        return 'amp-facebook';
     }
 
     public function hasScriptTag()
@@ -91,7 +85,7 @@ class AmpInstagramConverter extends AmpTagConverter implements AmpTagConverterIn
 
     public function getScriptTag()
     {
-        return '<script async custom-element="amp-instagram" src="https://cdn.ampproject.org/v0/amp-instagram-0.1.js"></script>';
+        return '<script async custom-element="amp-facebook" src="https://cdn.ampproject.org/v0/amp-facebook-0.1.js"></script>';
     }
     
 }

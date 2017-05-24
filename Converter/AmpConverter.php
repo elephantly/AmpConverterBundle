@@ -47,13 +47,13 @@ class AmpConverter
                 if ($bodyExists->length) {
                     $selector = 'body '.$selector;
                 }
-
+        
                 $tags = $this->getMatchingTags($document, $selector);
                             
                 foreach ($tags as $tag) {
                     $this->deleteTag($tag);
                 }
-
+        
             }
         }
         
@@ -69,12 +69,23 @@ class AmpConverter
             }
 
         }
-        
         // Workaround 2 Working for 53
         // https://stackoverflow.com/questions/5706086/php-domdocument-output-without-xml-version-1-0-encoding-utf-8
-        // $output = $document->saveXML($document->documentElement->firstChild->firstChild); still not working
-        $output = $document->saveXML($document->documentElement); // seems to be valid
-        return trim($output);
+        // $output = $document->saveXML($document->documentElement->firstChild->firstChild); // still not working
+        // $output = $document->saveXML($document->documentElement); // seems to be valid
+        
+
+        // Only workaround Working for real
+        $output = '';
+        $outputElement = $document->documentElement;
+        if ($outputElement->firstChild->tagName === 'body') {
+            $outputElement = $outputElement->firstChild;
+        }
+        foreach ($outputElement->childNodes as $child) {
+            $output .= $document->saveHTML($child);
+        }
+
+        return trim($output, " \t\n\r\0\x0B");
 
     }
 
@@ -129,6 +140,7 @@ class AmpConverter
         $selectorConverter = new CssSelectorConverter();
 
         $xpathSelector = $selectorConverter->toXPath($selector);
+
         $xpath = new DOMXPath($document);
 
         $elements = $xpath->query($xpathSelector);
