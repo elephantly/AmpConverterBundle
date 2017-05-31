@@ -94,7 +94,7 @@ class AmpImgConverter extends AmpTagConverter implements AmpTagConverterInterfac
     public function getAmpTagName()
     {
         if ( (isset($this->options['amp_anim']) && $this->options['amp_anim']) || !isset($this->options['amp_anim'])) {
-            if (preg_match('/.*\.gif[?]*/', $this->inputElement->getAttribute('src'))) {
+            if ($this->inputElement && preg_match('/.*\.gif[?]*/', $this->inputElement->getAttribute('src'))) {
                 return 'amp-anim';
             }
         }

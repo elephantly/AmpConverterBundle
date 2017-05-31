@@ -84,7 +84,8 @@ class AmpConverter
         foreach ($outputElement->childNodes as $child) {
             $output .= $document->saveHTML($child);
         }
-
+        
+        $output = preg_replace("/style=[\"'][\w\s:;%-\.]*[\"']/", ' ', $output);
         return trim($output, " \t\n\r\0\x0B");
 
     }
@@ -101,10 +102,10 @@ class AmpConverter
         
         foreach ($this->converters as $selector => $converterClass) {
             
-            $tags = $this->getMatchingTags($document, $selector);
             $converter = $this->getConverter($converterClass);
+            $tags = $this->getMatchingTags($document, $converter->getAmpTagName());
 
-            if ($tags->length && $converter->hasScriptTag()) {
+            if (!in_array($converter->getScriptTag(), $scripts) && $tags->length && $converter->hasScriptTag()) {
                 $scripts[] = $converter->getScriptTag();
             }
     
@@ -115,8 +116,7 @@ class AmpConverter
 
     private function getDom($input)
     {
-        $document = new DOMDocument();
-        $document->encoding = 'UTF-8';
+        $document = new DOMDocument("1.0", "UTF-8");
         libxml_use_internal_errors(true);
         // not working in 53
         // see https://stackoverflow.com/questions/4879946/how-to-savehtml-of-domdocument-without-html-wrapper
@@ -127,9 +127,12 @@ class AmpConverter
         // $fragment->appendXML($input);
         // 
         // $document->appendChild($fragment);
-
-        $document->loadHTML($input);
         
+        // UTF8 encoding issue see: https://stackoverflow.com/questions/11309194/php-domdocument-failing-to-handle-utf-8-characters#11310258
+        $cleanInput = mb_convert_encoding($input, 'HTML-ENTITIES', 'UTF-8');
+
+        $document->loadHTML($cleanInput);
+        $document->encoding = 'UTF-8';
         libxml_clear_errors();
         
         return $document;

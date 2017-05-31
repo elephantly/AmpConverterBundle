@@ -28,7 +28,13 @@ class Configuration implements ConfigurationInterface
                         ->booleanNode('amp_anim')->defaultValue(true)->end()
                     ->end()
                 ->end()
-                ->scalarNode('illegal')->defaultValue(array('script'))->end()
+                ->arrayNode('pinterest')
+                ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('follow_label')->defaultValue('Follow us')->end()
+                    ->end()
+                ->end()
+                ->scalarNode('illegal')->defaultValue(array('script', 'div#fb-root'))->end()
             ->end()
         ;
 
