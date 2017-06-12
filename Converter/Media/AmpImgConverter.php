@@ -12,6 +12,9 @@ use FastImageSize\FastImageSize;
 */
 class AmpImgConverter extends AmpTagConverter implements AmpTagConverterInterface
 {
+
+    protected $imageInfos = null;
+
     function __construct($options = array())
     {
         $this->attributes = array('src', 'srcset', 'sizes', 'alt', 'attribution');
@@ -41,28 +44,24 @@ class AmpImgConverter extends AmpTagConverter implements AmpTagConverterInterfac
         } catch (\Exception $e) {
             $imageSize = false;
         }
-        
+
         return $imageSize ? $imageSize : null;
     }
     
     public function setup()
     {
-        if (!$imageInfo = $this->getImageInfo()) {
+        if (!$this->imageInfos = $this->getImageInfo()) {
             $this->isInputValid = false;
         }
     }
 
     public function callback()
     {
-        if (!$this->getImageInfo($this->outputElement)) {
-            $this->outputElement = null;
-            return;
-        }
         
         // checking illegal values for width and heigth
         $illegalValues = array('auto');
         $isIllegal = in_array($this->outputElement->getAttribute('width'), $illegalValues) || in_array($this->outputElement->getAttribute('height'), $illegalValues);
-
+        
         if ($isIllegal) {
             $this->outputElement->setAttribute('width', $this->getWidth($this->outputElement));
             $this->outputElement->setAttribute('height', $this->getHeight($this->outputElement));
@@ -120,18 +119,18 @@ class AmpImgConverter extends AmpTagConverter implements AmpTagConverterInterfac
     
     public function getWidth()
     {
-        if (!$imageInfo = $this->getImageInfo()) {
+        if (!$this->imageInfos) {
             return 0;
         }
-        return $imageInfo['width'];
+        return $this->imageInfos['width'];
     }
 
     public function getHeight()
     {
-        if (!$imageInfo = $this->getImageInfo()) {
+        if (!$this->imageInfos) {
             return 0;
         }
-        return $imageInfo['height'];
+        return $this->imageInfos['height'];
     }
     
 }

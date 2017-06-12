@@ -39,7 +39,9 @@ class AmpTagConverter
 
     public function convertToAmp($element)
     {
+        // Initialize
         $this->inputElement = $element;
+        $this->isInputValid = true;
         
         $this->setup();
         

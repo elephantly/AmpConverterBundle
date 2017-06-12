@@ -49,7 +49,6 @@ class AmpConverter
                 }
         
                 $tags = $this->getMatchingTags($document, $selector);
-                            
                 foreach ($tags as $tag) {
                     $this->deleteTag($tag);
                 }
@@ -61,7 +60,7 @@ class AmpConverter
         foreach ($this->converters as $selector => $converterClass) {
 
             $tags = $this->getMatchingTags($document, $selector);
-
+            
             $converter = $this->getConverter($converterClass);
                         
             foreach ($tags as $tag) {
@@ -166,6 +165,10 @@ class AmpConverter
         
         if ($ampTag) {
             $parent->replaceChild($ampTag, $tag);
+        }else{
+            if ($this->options['remove_incorrect_tags']) {
+                $parent->removeChild($tag);
+            }
         }
 
     }

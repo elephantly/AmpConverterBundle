@@ -35,6 +35,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->scalarNode('illegal')->defaultValue(array('script', 'div#fb-root'))->end()
+                ->booleanNode('remove_incorrect_tags')->defaultValue(true)->end()
             ->end()
         ;
 
