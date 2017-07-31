@@ -17,10 +17,11 @@ php:
 before_install:
     - composer install
 
-jobs:
-    include:
-        - stage: Test
-        - script: ./bin/kahlan
+script:
+    - bin/kahlan
+
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
 
 env:
   CODECLIMATE_REPO_TOKEN: f247b0d7edc57539b62b4be98713f14f858c80b62df7e894db65e1b4fe705027
