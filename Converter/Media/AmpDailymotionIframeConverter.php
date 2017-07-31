@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Elephantly\AmpConverterBundle\Converter\Media;
 
@@ -16,11 +16,11 @@ class AmpDailymotionIframeConverter extends AmpTagConverter implements AmpTagCon
 
     function __construct($options = array())
     {
-        $this->attributes = array('data-mute', 'data-videoid', 'data-endscreen-enable', 'data-sharing-enable', 'data-start', 'data-ui-logo', 'data-info');
+        $this->attributes = array('autoplay', 'data-mute', 'data-videoid', 'data-endscreen-enable', 'data-sharing-enable', 'data-start', 'data-ui-logo', 'data-info', 'data-param-*');
         $this->mandatoryAttributes = array('data-videoid');
         $this->options = $options;
     }
-    
+
     public function getDefaultValue($attribute)
     {
         switch ($attribute) {
@@ -36,15 +36,28 @@ class AmpDailymotionIframeConverter extends AmpTagConverter implements AmpTagCon
                 return null;
         }
     }
-    
+
     public function setup()
     {
-        
+
     }
 
     public function callback()
     {
-        
+        $src = $this->inputElement->getAttribute('src');
+        $dmUrl = parse_url($src);
+        parse_str($dmUrl['query'], $dmUrl);
+
+        foreach ($dmUrl as $key => $value) {
+            $prefix = 'data-param-';
+            if (in_array('data-'.$key, $this->attributes)) {
+                $prefix = 'data-';
+            }elseif (in_array($key, $this->attributes)){
+                $prefix = '';
+            }
+
+            $this->outputElement->setAttribute($prefix.$key, $value);
+        }
     }
 
     public static function getIdentifier()
@@ -71,5 +84,5 @@ class AmpDailymotionIframeConverter extends AmpTagConverter implements AmpTagCon
     {
         return '<script async custom-element="amp-dailymotion" src="https://cdn.ampproject.org/v0/amp-dailymotion-0.1.js"></script>';
     }
-    
+
 }
