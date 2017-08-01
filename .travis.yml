@@ -14,15 +14,18 @@ php:
   - hhvm
   - nightly
 
+addons:
+    code_climate:
+        repo_token: f247b0d7edc57539b62b4be98713f14f858c80b62df7e894db65e1b4fe705027
+
 before_install:
     - composer install
 
 script:
-    - bin/kahlan
+    - bin/kahlan 
 
 after_success:
-    - bash <(curl -s https://codecov.io/bash)
+  - vendor/bin/test-reporter
 
 env:
-  CODECLIMATE_REPO_TOKEN: f247b0d7edc57539b62b4be98713f14f858c80b62df7e894db65e1b4fe705027
   CODECOV_TOKEN: 3b8751b7-bba9-4d21-957b-d86af57629fc
