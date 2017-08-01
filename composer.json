@@ -30,6 +30,9 @@
             "Elephantly\\AmpConverterBundle\\": ""
         }
     },
+    "platform": {
+        "php": "5.4"
+    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
