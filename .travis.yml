@@ -26,12 +26,18 @@ before_script:
   - chmod +x ./cc-test-reporter
 
 script:
-    - bin/kahlan --config=kahlan-config.travis.php --clover=clover.xml
+    - bin/kahlan
 
 jobs:
   include:
     - stage: Code Climate Coverage
-      script: if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
+      env:
+          global:
+              - CC_TEST_REPORTER_ID=f247b0d7edc57539b62b4be98713f14f858c80b62df7e894db65e1b4fe705027
+              - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
+      script:
+          - bin/kahlan --config=kahlan-config.travis.php --clover=clover.xml
+          - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
 env:
     global:
