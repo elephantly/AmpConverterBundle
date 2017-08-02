@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Elephantly\AmpConverterBundle\Converter;
 
@@ -13,11 +13,11 @@ use Symfony\Component\CssSelector\CssSelectorConverter;
 * primary @author purplebabar(lalung.alexandre@gmail.com)
 */
 class AmpConverter
-{    
+{
     protected $input;
 
     protected $output;
-    
+
     protected $options;
 
     protected $converters;
@@ -30,7 +30,7 @@ class AmpConverter
             $this->converters = $converters->getConverters();
         }
     }
-    
+
     public function convert($input)
     {
         if (!$input) {
@@ -38,7 +38,7 @@ class AmpConverter
         }
 
         $document = $this->getDom($input);
-        
+
         // delete illegal if illegals are specified
         if (isset($this->options['illegal'])) {
             foreach ($this->options['illegal'] as $selector) {
@@ -47,22 +47,22 @@ class AmpConverter
                 if ($bodyExists->length) {
                     $selector = 'body '.$selector;
                 }
-        
+
                 $tags = $this->getMatchingTags($document, $selector);
                 foreach ($tags as $tag) {
                     $this->deleteTag($tag);
                 }
-        
+
             }
         }
-        
+
         // convert Tags
         foreach ($this->converters as $selector => $converterClass) {
 
             $tags = $this->getMatchingTags($document, $selector);
-            
+
             $converter = $this->getConverter($converterClass);
-                        
+
             foreach ($tags as $tag) {
                 $this->convertTag($tag, $converter);
             }
@@ -72,7 +72,7 @@ class AmpConverter
         // https://stackoverflow.com/questions/5706086/php-domdocument-output-without-xml-version-1-0-encoding-utf-8
         // $output = $document->saveXML($document->documentElement->firstChild->firstChild); // still not working
         // $output = $document->saveXML($document->documentElement); // seems to be valid
-        
+
 
         // Only workaround Working for real
         $output = '';
@@ -83,7 +83,7 @@ class AmpConverter
         foreach ($outputElement->childNodes as $child) {
             $output .= $document->saveHTML($child);
         }
-        
+
         $output = preg_replace("/style=[\"'][\w\s:;%-\.]*[\"']/", ' ', $output);
         return trim($output, " \t\n\r\0\x0B");
 
@@ -96,20 +96,20 @@ class AmpConverter
         if (!$input) {
             return '';
         }
-        
+
         $document = $this->getDom($input);
-        
-        foreach ($this->converters as $selector => $converterClass) {
-            
+
+        foreach ($this->converters as $converterClass) {
+
             $converter = $this->getConverter($converterClass);
             $tags = $this->getMatchingTags($document, $converter->getAmpTagName());
 
             if (!in_array($converter->getScriptTag(), $scripts) && $tags->length && $converter->hasScriptTag()) {
                 $scripts[] = $converter->getScriptTag();
             }
-    
+
         }
-        
+
         return implode('', $scripts);
     }
 
@@ -124,16 +124,16 @@ class AmpConverter
         // WORKAROUND 1 not working either
         // $fragment = $document->createDocumentFragment();
         // $fragment->appendXML($input);
-        // 
+        //
         // $document->appendChild($fragment);
-        
+
         // UTF8 encoding issue see: https://stackoverflow.com/questions/11309194/php-domdocument-failing-to-handle-utf-8-characters#11310258
         $cleanInput = mb_convert_encoding($input, 'HTML-ENTITIES', 'UTF-8');
 
         $document->loadHTML($cleanInput);
         $document->encoding = 'UTF-8';
         libxml_clear_errors();
-        
+
         return $document;
     }
 
@@ -156,19 +156,21 @@ class AmpConverter
         $converter = new $converterClass($tagOptions);
         return $converter;
     }
-    
+
     private function convertTag($tag, $converter)
     {
         $ampTag = $converter->convertToAmp($tag);
 
         $parent = $tag->parentNode;
-        
+
         if ($ampTag) {
             $parent->replaceChild($ampTag, $tag);
-        }else{
-            if ($this->options['remove_incorrect_tags']) {
-                $parent->removeChild($tag);
-            }
+            return;
+        }
+
+        if ($this->options['remove_incorrect_tags']) {
+            $parent->removeChild($tag);
+            return;
         }
 
     }
@@ -178,5 +180,5 @@ class AmpConverter
         $parent = $tag->parentNode;
         $parent->removeChild($tag);
     }
-    
+
 }
