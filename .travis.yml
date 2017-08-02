@@ -1,5 +1,6 @@
 dist: trusty
 language: php
+sudo: required
 
 notifications:
     email: false
