@@ -27,7 +27,11 @@ before_script:
 
 script:
     - bin/kahlan --config=kahlan-config.travis.php --clover=clover.xml
-    - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
+
+jobs:
+  include:
+    - stage: Code Climate Coverage
+      script: - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
 
 env:
     global:
