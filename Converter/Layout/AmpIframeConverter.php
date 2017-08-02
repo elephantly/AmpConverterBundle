@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Elephantly\AmpConverterBundle\Converter\Layout;
 
@@ -14,13 +14,13 @@ use Elephantly\AmpConverterBundle\Client\OEmbedClient;
 class AmpIframeConverter extends AmpTagConverter implements AmpTagConverterInterface
 {
 
-    function __construct($options = array())
+    public function __construct($options = array())
     {
         $this->attributes = array('src', 'sandbox');
         $this->mandatoryAttributes = array('layout', 'src', 'height', 'width');
         $this->options = $options;
     }
-    
+
     public function getDefaultValue($attribute)
     {
         switch ($attribute) {
@@ -30,10 +30,10 @@ class AmpIframeConverter extends AmpTagConverter implements AmpTagConverterInter
                 return null;
         }
     }
-    
+
     public function setup()
     {
-        
+
     }
 
     public function callback()
@@ -52,7 +52,7 @@ class AmpIframeConverter extends AmpTagConverter implements AmpTagConverterInter
             }
             $this->outputElement->setAttribute('src', $srcCorrected);
         }
-        
+
     }
 
     public static function getIdentifier()
@@ -79,5 +79,5 @@ class AmpIframeConverter extends AmpTagConverter implements AmpTagConverterInter
     {
         return '<script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script>';
     }
-    
+
 }

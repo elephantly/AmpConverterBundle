@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Elephantly\AmpConverterBundle\Converter;
 
@@ -7,7 +7,7 @@ namespace Elephantly\AmpConverterBundle\Converter;
 */
 interface AmpTagConverterInterface
 {
-    function __construct($options = array());
+    public function __construct($options = array());
     public function convertToAmp($element);
     public static function getIdentifier();
     public function hasScriptTag();

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Elephantly\AmpConverterBundle\Converter\Social;
 
@@ -13,17 +13,17 @@ use Elephantly\AmpConverterBundle\Client\OEmbedClient;
 */
 class AmpFacebookSdkConverter extends AmpTagConverter implements AmpTagConverterInterface
 {
-    
+
     const FACEBOOK_OEMBED_POST = 'https://www.facebook.com/plugins/post/oembed.json/?url=';
     const FACEBOOK_OEMBED_VIDEO = 'https://www.facebook.com/plugins/video/oembed.json/?url=';
 
-    function __construct($options = array())
+    public function __construct($options = array())
     {
         $this->attributes = array('data-href', 'data-embed-as');
         $this->mandatoryAttributes = array('layout', 'data-href', 'width');
         $this->options = $options;
     }
-    
+
     public function getDefaultValue($attribute)
     {
         switch ($attribute) {
@@ -42,10 +42,10 @@ class AmpFacebookSdkConverter extends AmpTagConverter implements AmpTagConverter
                 return null;
         }
     }
-    
+
     public function setup()
     {
-        
+
     }
 
     public function callback()
@@ -64,7 +64,7 @@ class AmpFacebookSdkConverter extends AmpTagConverter implements AmpTagConverter
                 break;
         }
         $this->outputElement->setAttribute('data-embed-as', $embedOut);
-        
+
         if (!$this->outputElement->getAttribute('height')) {
             try {
                 $oEmbedClient = new OEmbedClient();
@@ -78,7 +78,7 @@ class AmpFacebookSdkConverter extends AmpTagConverter implements AmpTagConverter
             }else{
                 $this->outputElement->removeAttribute('height');
             }
-            
+
         }
 
     }
@@ -107,5 +107,5 @@ class AmpFacebookSdkConverter extends AmpTagConverter implements AmpTagConverter
     {
         return '<script async custom-element="amp-facebook" src="https://cdn.ampproject.org/v0/amp-facebook-0.1.js"></script>';
     }
-    
+
 }

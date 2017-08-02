@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Elephantly\AmpConverterBundle\Converter\Social;
 
@@ -19,13 +19,13 @@ class AmpInstagramConverter extends AmpTagConverter implements AmpTagConverterIn
 
     const INSTAGRAM_OEMBED = 'https://api.instagram.com/oembed/?url=';
 
-    function __construct($options = array())
+    public function __construct($options = array())
     {
         $this->attributes = array('data-captioned', 'data-shortcode');
         $this->mandatoryAttributes = array('layout', 'data-shortcode', 'height', 'width');
-        $this->options = $options;    
+        $this->options = $options;
     }
-    
+
     public function getDefaultValue($attribute)
     {
         switch ($attribute) {
@@ -46,7 +46,7 @@ class AmpInstagramConverter extends AmpTagConverter implements AmpTagConverterIn
                 return null;
         }
     }
-    
+
     public function setup()
     {
         $xpath = new DOMXPath($this->inputElement->ownerDocument);
@@ -71,7 +71,7 @@ class AmpInstagramConverter extends AmpTagConverter implements AmpTagConverterIn
         if (!$this->outputElement->getAttribute('data-shortcode')) {
             $this->outputElement = null;
         }
-        
+
     }
 
     public static function getIdentifier()
@@ -98,5 +98,5 @@ class AmpInstagramConverter extends AmpTagConverter implements AmpTagConverterIn
     {
         return '<script async custom-element="amp-instagram" src="https://cdn.ampproject.org/v0/amp-instagram-0.1.js"></script>';
     }
-    
+
 }

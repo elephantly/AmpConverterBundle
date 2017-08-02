@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Elephantly\AmpConverterBundle\Converter\Social;
 
@@ -14,13 +14,13 @@ use Elephantly\AmpConverterBundle\Client\OEmbedClient;
 class AmpFacebookIframeConverter extends AmpTagConverter implements AmpTagConverterInterface
 {
 
-    function __construct($options = array())
+    public function __construct($options = array())
     {
         $this->attributes = array('data-href', 'data-embed-as');
         $this->mandatoryAttributes = array('layout', 'data-href', 'height', 'width');
         $this->options = $options;
     }
-    
+
     public function getDefaultValue($attribute)
     {
         switch ($attribute) {
@@ -39,10 +39,10 @@ class AmpFacebookIframeConverter extends AmpTagConverter implements AmpTagConver
                 return null;
         }
     }
-    
+
     public function setup()
     {
-        
+
     }
 
     public function callback()
@@ -87,5 +87,5 @@ class AmpFacebookIframeConverter extends AmpTagConverter implements AmpTagConver
     {
         return '<script async custom-element="amp-facebook" src="https://cdn.ampproject.org/v0/amp-facebook-0.1.js"></script>';
     }
-    
+
 }

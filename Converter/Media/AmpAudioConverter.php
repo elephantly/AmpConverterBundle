@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Elephantly\AmpConverterBundle\Converter\Media;
 
@@ -12,13 +12,13 @@ use FastImageSize\FastImageSize;
 */
 class AmpAudioConverter extends AmpTagConverter implements AmpTagConverterInterface
 {
-    function __construct($options = array())
+    public function __construct($options = array())
     {
         $this->attributes = array('muted', 'autoplay', 'loop');
         $this->mandatoryAttributes = array();
         $this->options = $options;
     }
-    
+
     public function getDefaultValue($attribute)
     {
         switch ($attribute) {
@@ -26,10 +26,10 @@ class AmpAudioConverter extends AmpTagConverter implements AmpTagConverterInterf
                 return null;
         }
     }
-    
+
     public function setup()
     {
-        
+
     }
 
     public function callback()
@@ -68,7 +68,7 @@ class AmpAudioConverter extends AmpTagConverter implements AmpTagConverterInterf
     {
         return 'amp-audio';
     }
-    
+
     public function hasScriptTag()
     {
         return true;
@@ -78,5 +78,5 @@ class AmpAudioConverter extends AmpTagConverter implements AmpTagConverterInterf
     {
         return '<script async custom-element="amp-audio" src="https://cdn.ampproject.org/v0/amp-audio-0.1.js"></script>';
     }
-    
+
 }

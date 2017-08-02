@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Elephantly\AmpConverterBundle\Converter\Media;
 
@@ -12,13 +12,13 @@ use FastImageSize\FastImageSize;
 */
 class AmpBrightcoveIframeConverter extends AmpTagConverter implements AmpTagConverterInterface
 {
-    function __construct($options = array())
+    public function __construct($options = array())
     {
         $this->attributes = array('data-account', 'data-player', 'data-player-id', 'data-embed', 'data-video-id', 'data-playlist-id', 'data-param-*');
         $this->mandatoryAttributes = array('data-account', 'data-player', 'data-embed', 'data-video-id', 'layout', 'width', 'height');
         $this->options = $options;
     }
-    
+
     public function getDefaultValue($attribute)
     {
         switch ($attribute) {
@@ -32,7 +32,7 @@ class AmpBrightcoveIframeConverter extends AmpTagConverter implements AmpTagConv
                 return null;
         }
     }
-    
+
     public function setup()
     {
 
@@ -58,7 +58,7 @@ class AmpBrightcoveIframeConverter extends AmpTagConverter implements AmpTagConv
         if (!$this->outputElement->getAttribute('data-account')) {
             $this->outputElement->setAttribute('data-account', $brightcovePath[1]);
         }
-            
+
         $brightcovePath = explode('_', $brightcovePath[2]);
 
         if (!$this->outputElement->getAttribute('data-player')) {
@@ -86,7 +86,7 @@ class AmpBrightcoveIframeConverter extends AmpTagConverter implements AmpTagConv
     {
         return 'amp-brightcove';
     }
-    
+
     public function hasScriptTag()
     {
         return true;
@@ -96,5 +96,5 @@ class AmpBrightcoveIframeConverter extends AmpTagConverter implements AmpTagConv
     {
         return '<script async custom-element="amp-brightcove" src="https://cdn.ampproject.org/v0/amp-brightcove-0.1.js"></script>';
     }
-    
+
 }

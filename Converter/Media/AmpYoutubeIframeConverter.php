@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Elephantly\AmpConverterBundle\Converter\Media;
 
@@ -14,13 +14,13 @@ use Elephantly\AmpConverterBundle\Client\OEmbedClient;
 class AmpYoutubeIframeConverter extends AmpTagConverter implements AmpTagConverterInterface
 {
 
-    function __construct($options = array())
+    public function __construct($options = array())
     {
         $this->attributes = array('autoplay', 'data-videoid', 'data-param-*');
         $this->mandatoryAttributes = array('data-videoid');
         $this->options = $options;
     }
-    
+
     public function getDefaultValue($attribute)
     {
         switch ($attribute) {
@@ -36,15 +36,15 @@ class AmpYoutubeIframeConverter extends AmpTagConverter implements AmpTagConvert
                 return null;
         }
     }
-    
+
     public function setup()
     {
-        
+
     }
 
     public function callback()
     {
-        
+
     }
 
     public static function getIdentifier()
@@ -71,5 +71,5 @@ class AmpYoutubeIframeConverter extends AmpTagConverter implements AmpTagConvert
     {
         return '<script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js"></script>';
     }
-    
+
 }

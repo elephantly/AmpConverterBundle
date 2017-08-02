@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Elephantly\AmpConverterBundle\Converter\Media;
 
@@ -12,13 +12,13 @@ use FastImageSize\FastImageSize;
 */
 class AmpBrightcoveVideoConverter extends AmpTagConverter implements AmpTagConverterInterface
 {
-    function __construct($options = array())
+    public function __construct($options = array())
     {
         $this->attributes = array('data-account', 'data-player', 'data-player-id', 'data-embed', 'data-video-id', 'data-playlist-id', 'data-param-*');
         $this->mandatoryAttributes = array('data-account', 'data-player', 'data-embed', 'data-video-id', 'layout', 'width', 'height');
         $this->options = $options;
     }
-    
+
     public function getDefaultValue($attribute)
     {
         switch ($attribute) {
@@ -32,7 +32,7 @@ class AmpBrightcoveVideoConverter extends AmpTagConverter implements AmpTagConve
                 return null;
         }
     }
-    
+
     public function setup()
     {
 
@@ -68,7 +68,7 @@ class AmpBrightcoveVideoConverter extends AmpTagConverter implements AmpTagConve
     {
         return 'amp-brightcove';
     }
-    
+
     public function hasScriptTag()
     {
         return true;
@@ -78,5 +78,5 @@ class AmpBrightcoveVideoConverter extends AmpTagConverter implements AmpTagConve
     {
         return '<script async custom-element="amp-brightcove" src="https://cdn.ampproject.org/v0/amp-brightcove-0.1.js"></script>';
     }
-    
+
 }

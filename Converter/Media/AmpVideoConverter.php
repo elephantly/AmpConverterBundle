@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Elephantly\AmpConverterBundle\Converter\Media;
 
@@ -12,13 +12,13 @@ use FastImageSize\FastImageSize;
 */
 class AmpVideoConverter extends AmpTagConverter implements AmpTagConverterInterface
 {
-    function __construct($options = array())
+    public function __construct($options = array())
     {
         $this->attributes = array('src', 'poster', 'autoplay', 'controls', 'loop');
         $this->mandatoryAttributes = array('layout', 'width', 'height');
         $this->options = $options;
     }
-    
+
     public function getDefaultValue($attribute)
     {
         switch ($attribute) {
@@ -32,7 +32,7 @@ class AmpVideoConverter extends AmpTagConverter implements AmpTagConverterInterf
                 return null;
         }
     }
-    
+
     public function setup()
     {
 
@@ -74,7 +74,7 @@ class AmpVideoConverter extends AmpTagConverter implements AmpTagConverterInterf
     {
         return 'amp-video';
     }
-    
+
     public function hasScriptTag()
     {
         return true;
@@ -84,5 +84,5 @@ class AmpVideoConverter extends AmpTagConverter implements AmpTagConverterInterf
     {
         return '<script async custom-element="amp-video" src="https://cdn.ampproject.org/v0/amp-video-0.1.js"></script>';
     }
-    
+
 }

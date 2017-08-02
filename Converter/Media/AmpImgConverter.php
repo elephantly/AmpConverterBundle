@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Elephantly\AmpConverterBundle\Converter\Media;
 
@@ -15,13 +15,13 @@ class AmpImgConverter extends AmpTagConverter implements AmpTagConverterInterfac
 
     protected $imageInfos = null;
 
-    function __construct($options = array())
+    public function __construct($options = array())
     {
         $this->attributes = array('src', 'srcset', 'sizes', 'alt', 'attribution');
         $this->mandatoryAttributes = array('layout', 'width', 'height');
         $this->options = $options;
     }
-    
+
     public function getDefaultValue($attribute)
     {
         switch ($attribute) {
@@ -35,9 +35,9 @@ class AmpImgConverter extends AmpTagConverter implements AmpTagConverterInterfac
                 return null;
         }
     }
-    
+
     private function getImageInfo()
-    {   
+    {
         $imageSizer = new FastImageSize();
         try {
             $imageSize = $imageSizer->getImageSize($this->inputElement->getAttribute('src'));
@@ -47,7 +47,7 @@ class AmpImgConverter extends AmpTagConverter implements AmpTagConverterInterfac
 
         return $imageSize ? $imageSize : null;
     }
-    
+
     public function setup()
     {
         if (!$this->imageInfos = $this->getImageInfo()) {
@@ -57,21 +57,21 @@ class AmpImgConverter extends AmpTagConverter implements AmpTagConverterInterfac
 
     public function callback()
     {
-        
+
         // checking illegal values for width and heigth
         $illegalValues = array('auto');
         $isIllegal = in_array($this->outputElement->getAttribute('width'), $illegalValues) || in_array($this->outputElement->getAttribute('height'), $illegalValues);
-        
+
         if ($isIllegal) {
             $this->outputElement->setAttribute('width', $this->getWidth($this->outputElement));
             $this->outputElement->setAttribute('height', $this->getHeight($this->outputElement));
         }
-        
+
         preg_match('/\d*(\w*)/', $this->outputElement->getAttribute('width'), $matchWidth);
         preg_match('/\d*(\w*)/', $this->outputElement->getAttribute('height'), $matchHeight);
-        
+
         $unitsAreInconsistent = $matchWidth[1] !== $matchHeight[1];
-        
+
         $isInconsistent = ($this->inputElement->hasAttribute('width') && !$this->inputElement->hasAttribute('height')) || (!$this->inputElement->hasAttribute('width') && $this->inputElement->hasAttribute('height'));
 
         if ($isInconsistent || $unitsAreInconsistent) {
@@ -100,7 +100,7 @@ class AmpImgConverter extends AmpTagConverter implements AmpTagConverterInterfac
 
         return 'amp-img';
     }
-    
+
     public function hasScriptTag()
     {
         if ((isset($this->options['amp_anim']) && $this->options['amp_anim'])) {
@@ -116,7 +116,7 @@ class AmpImgConverter extends AmpTagConverter implements AmpTagConverterInterfac
         }
         return null;
     }
-    
+
     public function getWidth()
     {
         if (!$this->imageInfos) {
@@ -132,5 +132,5 @@ class AmpImgConverter extends AmpTagConverter implements AmpTagConverterInterfac
         }
         return $this->imageInfos['height'];
     }
-    
+
 }

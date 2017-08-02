@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Elephantly\AmpConverterBundle\Converter\Media;
 
@@ -14,13 +14,13 @@ use Elephantly\AmpConverterBundle\Client\OEmbedClient;
 class AmpVimeoIframeConverter extends AmpTagConverter implements AmpTagConverterInterface
 {
 
-    function __construct($options = array())
+    public function __construct($options = array())
     {
         $this->attributes = array('data-videoid');
         $this->mandatoryAttributes = array('data-videoid');
         $this->options = $options;
     }
-    
+
     public function getDefaultValue($attribute)
     {
         switch ($attribute) {
@@ -36,15 +36,15 @@ class AmpVimeoIframeConverter extends AmpTagConverter implements AmpTagConverter
                 return null;
         }
     }
-    
+
     public function setup()
     {
-        
+
     }
 
     public function callback()
     {
-        
+
     }
 
     public static function getIdentifier()
@@ -71,5 +71,5 @@ class AmpVimeoIframeConverter extends AmpTagConverter implements AmpTagConverter
     {
         return '<script async custom-element="amp-vimeo" src="https://cdn.ampproject.org/v0/amp-vimeo-0.1.js"></script>';
     }
-    
+
 }

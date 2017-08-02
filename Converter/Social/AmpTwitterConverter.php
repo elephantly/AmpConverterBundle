@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Elephantly\AmpConverterBundle\Converter\Social;
 
@@ -15,14 +15,14 @@ use DOMXPath;
 class AmpTwitterConverter extends AmpTagConverter implements AmpTagConverterInterface
 {
     protected $link = null;
-    
-    function __construct($options = array())
+
+    public function __construct($options = array())
     {
         $this->attributes = array('data-*', 'data-tweetid');
         $this->mandatoryAttributes = array('data-tweetid', 'layout', 'height', 'width');
         $this->options = $options;
     }
-    
+
     public function getDefaultValue($attribute)
     {
         switch ($attribute) {
@@ -100,5 +100,5 @@ class AmpTwitterConverter extends AmpTagConverter implements AmpTagConverterInte
     {
         return '<script async custom-element="amp-twitter" src="https://cdn.ampproject.org/v0/amp-twitter-0.1.js"></script>';
     }
-    
+
 }

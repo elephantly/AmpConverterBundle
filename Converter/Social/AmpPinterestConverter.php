@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Elephantly\AmpConverterBundle\Converter\Social;
 
@@ -14,13 +14,13 @@ use Elephantly\AmpConverterBundle\Client\OEmbedClient;
 class AmpPinterestConverter extends AmpTagConverter implements AmpTagConverterInterface
 {
 
-    function __construct($options = array())
+    public function __construct($options = array())
     {
         $this->attributes = array('data-do', 'data-url', 'data-media', 'data-description', 'data-href', 'data-label', 'data-count');
         $this->mandatoryAttributes = array('data-do', 'width', 'height');
-        $this->options = $options;    
+        $this->options = $options;
     }
-    
+
     public function getDefaultValue($attribute)
     {
         switch ($attribute) {
@@ -34,10 +34,10 @@ class AmpPinterestConverter extends AmpTagConverter implements AmpTagConverterIn
                 return null;
         }
     }
-    
+
     public function setup()
     {
-        
+
     }
 
     public function callback()
@@ -98,7 +98,7 @@ class AmpPinterestConverter extends AmpTagConverter implements AmpTagConverterIn
                 if (!$this->outputElement->getAttribute('data-description')) {
                     $this->outputElement->setAttribute('data-description', $href['description']);
                 }
-                
+
                 // set multiple values
                 if (!$count = $this->inputElement->getAttribute('data-pin-count')) {
                     $this->outputElement->setAttribute('data-count', $count);
@@ -107,14 +107,14 @@ class AmpPinterestConverter extends AmpTagConverter implements AmpTagConverterIn
                 if (!$isTall = $this->inputElement->getAttribute('data-pin-tall')) {
                     $this->outputElement->setAttribute('data-tall', $isTall);
                 }
-                
+
                 if (!$isRound = $this->inputElement->getAttribute('data-pin-round')) {
                     $this->outputElement->setAttribute('data-round', $isRound);
                 }
 
                 $width = $isTall ? 57 : 40;
                 $height = $isTall ? 28 : 20;
-                
+
                 if ($this->outputElement->getAttribute('data-count') == 'beside') {
                     $width = $isTall ? 107 : 88;
                     $height = $isTall ? 28 : 20;
@@ -124,7 +124,7 @@ class AmpPinterestConverter extends AmpTagConverter implements AmpTagConverterIn
                     $width = $isTall ? 56 : 40;
                     $height = $isTall ? 66 : 50;
                 }
-                
+
                 if ($this->outputElement->getAttribute('data-round')) {
                     $width = $isTall ? 32 : 16;
                     $height = $isTall ? 32 : 16;
@@ -135,8 +135,8 @@ class AmpPinterestConverter extends AmpTagConverter implements AmpTagConverterIn
                 return;
             default:
                 return;
-        }        
-        
+        }
+
     }
 
     public static function getIdentifier()
@@ -163,5 +163,5 @@ class AmpPinterestConverter extends AmpTagConverter implements AmpTagConverterIn
     {
         return '<script async custom-element="amp-pinterest" src="https://cdn.ampproject.org/v0/amp-pinterest-0.1.js"></script>';
     }
-    
+
 }

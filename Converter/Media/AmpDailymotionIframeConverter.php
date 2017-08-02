@@ -14,7 +14,7 @@ use Elephantly\AmpConverterBundle\Client\OEmbedClient;
 class AmpDailymotionIframeConverter extends AmpTagConverter implements AmpTagConverterInterface
 {
 
-    function __construct($options = array())
+    public function __construct($options = array())
     {
         $this->attributes = array('autoplay', 'data-mute', 'data-videoid', 'data-endscreen-enable', 'data-sharing-enable', 'data-start', 'data-ui-logo', 'data-info', 'data-param-*');
         $this->mandatoryAttributes = array('data-videoid');
