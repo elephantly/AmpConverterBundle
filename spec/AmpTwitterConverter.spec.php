@@ -11,7 +11,7 @@ use Elephantly\AmpConverterBundle\spec\TestConfig;
 describe("Converter", function() {
     context("Regular", function() {
         beforeAll(function() {
-            $this->_amp = new AmpConverter(array('blockquote.twitter-tweet' => 'Elephantly\AmpConverterBundle\Converter\Social\AmpTwitterConverter'), TestConfig::OPTIONS);
+            $this->_amp = new AmpConverter(array('blockquote.twitter-tweet' => 'Elephantly\AmpConverterBundle\Converter\Social\AmpTwitterConverter'), TestConfig::$options);
             $this->_tag = '<blockquote data-cards="hidden" class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Lorraine and I had an amazing time at the <a
     href="https://twitter.com/hashtag/Oscars?src=hash">#Oscars</a>! Congrats to all of the nominees on a job
 well-done! <a href="https://t.co/xyrO7kQBzH">pic.twitter.com/xyrO7kQBzH</a></p>&mdash; Andy Serkis (@andyserkis) <a

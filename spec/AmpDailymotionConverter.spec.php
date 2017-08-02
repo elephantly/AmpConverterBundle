@@ -11,7 +11,7 @@ use Elephantly\AmpConverterBundle\spec\TestConfig;
 describe("Converter", function() {
     context("Regular", function() {
         beforeAll(function() {
-            $this->_amp = new AmpConverter(array('iframe[src*="dailymotion.com"]' => 'Elephantly\AmpConverterBundle\Converter\Media\AmpDailymotionIframeConverter'), TestConfig::OPTIONS);
+            $this->_amp = new AmpConverter(array('iframe[src*="dailymotion.com"]' => 'Elephantly\AmpConverterBundle\Converter\Media\AmpDailymotionIframeConverter'), TestConfig::$options);
             $this->_tag = '<iframe frameborder="0" width="480" height="270"
 src="//www.dailymotion.com/embed/video/xwr14q?autoplay=1&mute=1&syndication=123456"
 allowfullscreen></iframe>';

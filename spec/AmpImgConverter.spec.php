@@ -11,7 +11,7 @@ use Elephantly\AmpConverterBundle\spec\TestConfig;
 describe("Converter", function() {
     context("Regular", function() {
         beforeAll(function() {
-            $this->_amp = new AmpConverter(array('img' => 'Elephantly\AmpConverterBundle\Converter\Media\AmpImgConverter'), TestConfig::OPTIONS);
+            $this->_amp = new AmpConverter(array('img' => 'Elephantly\AmpConverterBundle\Converter\Media\AmpImgConverter'), TestConfig::$options);
         });
         describe("convert()", function() {
             it("converts to string", function() {

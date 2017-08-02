@@ -7,13 +7,13 @@ namespace Elephantly\AmpConverterBundle\spec;
 */
 class TestConfig
 {
-    const OPTIONS = array(
+    public static $options = array(
         'img' => array('amp_anim' => true),
         'illegal' => array('script', 'div#fb-root'),
         'pinterest' => array('follow_label' => 'Follow us'),
         'remove_incorrect_tags' => true
     );
 
-    const CONVERTERS = array();
+    public static $converters = array();
 
 }
