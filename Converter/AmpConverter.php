@@ -8,7 +8,6 @@ use Elephantly\AmpConverterBundle\Converter\Media\AmpImgConverter;
 use Elephantly\AmpConverterBundle\Converter\ConverterChain;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
-
 /**
 * primary @author purplebabar(lalung.alexandre@gmail.com)
 */
@@ -22,7 +21,7 @@ class AmpConverter
 
     protected $converters;
 
-    function __construct($converters = array(), $options = array())
+    public function __construct($converters = array(), $options = array())
     {
         $this->options = $options;
         $this->converters = $converters;
@@ -52,13 +51,11 @@ class AmpConverter
                 foreach ($tags as $tag) {
                     $this->deleteTag($tag);
                 }
-
             }
         }
 
         // convert Tags
         foreach ($this->converters as $selector => $converterClass) {
-
             $tags = $this->getMatchingTags($document, $selector);
 
             $converter = $this->getConverter($converterClass);
@@ -66,20 +63,20 @@ class AmpConverter
             foreach ($tags as $tag) {
                 $this->convertTag($tag, $converter);
             }
-
         }
         // Workaround 2 Working for 53
         // https://stackoverflow.com/questions/5706086/php-domdocument-output-without-xml-version-1-0-encoding-utf-8
         // $output = $document->saveXML($document->documentElement->firstChild->firstChild); // still not working
         // $output = $document->saveXML($document->documentElement); // seems to be valid
 
-
         // Only workaround Working for real
         $output = '';
         $outputElement = $document->documentElement;
+
         if ($outputElement->firstChild->tagName === 'body') {
             $outputElement = $outputElement->firstChild;
         }
+
         foreach ($outputElement->childNodes as $child) {
             $output .= $document->saveHTML($child);
         }
@@ -100,14 +97,12 @@ class AmpConverter
         $document = $this->getDom($input);
 
         foreach ($this->converters as $converterClass) {
-
             $converter = $this->getConverter($converterClass);
             $tags = $this->getMatchingTags($document, $converter->getAmpTagName());
 
             if (!in_array($converter->getScriptTag(), $scripts) && $tags->length && $converter->hasScriptTag()) {
                 $scripts[] = $converter->getScriptTag();
             }
-
         }
 
         return implode('', $scripts);
@@ -127,7 +122,8 @@ class AmpConverter
         //
         // $document->appendChild($fragment);
 
-        // UTF8 encoding issue see: https://stackoverflow.com/questions/11309194/php-domdocument-failing-to-handle-utf-8-characters#11310258
+        // UTF8 encoding issue see:
+        // https://stackoverflow.com/questions/11309194/php-domdocument-failing-to-handle-utf-8-characters#11310258
         $cleanInput = mb_convert_encoding($input, 'HTML-ENTITIES', 'UTF-8');
 
         $document->loadHTML($cleanInput);
@@ -172,7 +168,6 @@ class AmpConverter
             $parent->removeChild($tag);
             return;
         }
-
     }
 
     private function deleteTag($tag)
@@ -180,5 +175,4 @@ class AmpConverter
         $parent = $tag->parentNode;
         $parent->removeChild($tag);
     }
-
 }
