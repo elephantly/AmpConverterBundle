@@ -22,10 +22,7 @@ before_install:
     - composer install
 
 script:
-    - bin/kahlan --clover=clover.xml
-
-after_success:
-    - vendor/bin/test-reporter
+    - bin/kahlan
 
 env:
   CODECOV_TOKEN: 3b8751b7-bba9-4d21-957b-d86af57629fc
