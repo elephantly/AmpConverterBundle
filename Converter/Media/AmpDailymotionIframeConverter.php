@@ -44,6 +44,7 @@ class AmpDailymotionIframeConverter extends AmpTagConverter implements AmpTagCon
 
     public function callback()
     {
+
         $src = $this->inputElement->getAttribute('src');
         $dmUrl = parse_url($src);
         parse_str($dmUrl['query'], $dmUrl);
@@ -58,6 +59,14 @@ class AmpDailymotionIframeConverter extends AmpTagConverter implements AmpTagCon
 
             $this->outputElement->setAttribute($prefix.$key, $value);
         }
+
+        if ($this->outputElement->hasAttribute('data-info') && !is_bool($dataInfo = $this->outputElement->getAttribute('data-info'))) {
+            $this->outputElement->setAttribute('data-info', $dataInfo ? 'true' : 'false');
+        }
+        if ($this->outputElement->hasAttribute('data-ui-logo') && !is_bool($dataUiLogo = $this->outputElement->getAttribute('data-ui-logo'))) {
+            $this->outputElement->setAttribute('data-ui-logo', $dataUiLogo ? 'true' : 'false');
+        }
+
     }
 
     public static function getIdentifier()

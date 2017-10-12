@@ -53,6 +53,10 @@ class AmpImgConverter extends AmpTagConverter implements AmpTagConverterInterfac
         if (!$this->imageInfos = $this->getImageInfo()) {
             $this->isInputValid = false;
         }
+
+        if (preg_match('/.*\.gif[?]*/', $this->inputElement->getAttribute('src'))) {
+            # code...
+        }
     }
 
     public function callback()
