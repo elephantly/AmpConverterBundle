@@ -37,6 +37,7 @@ jobs:
       script:
         - ./cc-test-reporter before-build
         - bin/kahlan --config=kahlan-config.travis.php --clover=clover.xml
+        - cat clover.xml
         - ./cc-test-reporter after-build --debug --exit-code $TRAVIS_TEST_RESULT
     - stage: Codecov Coverage
       script:
