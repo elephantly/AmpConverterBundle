@@ -26,6 +26,10 @@ class AmpIframeConverter extends AmpTagConverter implements AmpTagConverterInter
         switch ($attribute) {
             case 'layout':
                 return 'responsive';
+            case 'width':
+                return 500;
+            case 'height':
+                return 500;
             default:
                 return null;
         }

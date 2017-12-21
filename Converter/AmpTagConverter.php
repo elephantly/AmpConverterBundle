@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Elephantly\AmpConverterBundle\Converter;
 
@@ -10,7 +10,7 @@ class AmpTagConverter
     protected $attributes = array();
 
     protected $mandatoryAttributes = array();
-    
+
     protected $inputElement = null;
 
     protected $outputElement = null;
@@ -23,7 +23,7 @@ class AmpTagConverter
     {
         return array('fallback', 'heights', 'layout', 'media', 'noloading', 'on', 'placeholder', 'sizes', 'width', 'height', 'class');
     }
-    
+
     private function canBeConverted($attribute)
     {
         $regex = '/';
@@ -42,9 +42,9 @@ class AmpTagConverter
         // Initialize
         $this->inputElement = $element;
         $this->isInputValid = true;
-        
+
         $this->setup();
-        
+
         if (!$this->isInputValid) {
             return null;
         }
@@ -58,12 +58,14 @@ class AmpTagConverter
 
         foreach ($this->getMandatoryAttributes() as $mandatoryAttribute) {
             if (!$this->outputElement->hasAttribute($mandatoryAttribute)) {
-                $this->outputElement->setAttribute($mandatoryAttribute, $this->getDefaultValue($mandatoryAttribute, $this->inputElement));
+                if ($attributeDefaultValue = $this->getDefaultValue($mandatoryAttribute, $this->inputElement)) {
+                    $this->outputElement->setAttribute($mandatoryAttribute,$attributeDefaultValue);
+                }
             }
         }
 
         $this->callback();
-        
+
         $this->inputElement = null;
 
         return $this->outputElement;
@@ -78,5 +80,5 @@ class AmpTagConverter
     {
         return $this->mandatoryAttributes;
     }
-    
+
 }
