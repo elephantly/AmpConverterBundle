@@ -31,7 +31,8 @@ class ElephantlyAmpConverterExtension extends Extension
         $converterDefinition
            ->setArguments(array(
                 new Reference('elephantly.converters'),
-                $config
+                $config,
+                new Reference('elephantly.amp_tag_cleaner')
            ))
        ;
        $container->setDefinition('elephantly.amp_converter', $converterDefinition);

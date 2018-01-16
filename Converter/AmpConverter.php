@@ -7,6 +7,7 @@ use DOMXPath;
 use Elephantly\AmpConverterBundle\Converter\Media\AmpImgConverter;
 use Elephantly\AmpConverterBundle\Converter\ConverterChain;
 use Symfony\Component\CssSelector\CssSelectorConverter;
+use Elephantly\AmpConverterBundle\Cleaner\AmpTagCleaner;
 
 /**
 * primary @author purplebabar(lalung.alexandre@gmail.com)
@@ -21,10 +22,13 @@ class AmpConverter
 
     protected $converters;
 
-    public function __construct($converters = array(), $options = array())
+    protected $cleaner;
+
+    public function __construct($converters = array(), $options = array(), $cleaner = null)
     {
         $this->options = $options;
         $this->converters = $converters;
+        $this->cleaner = $cleaner;
         if ($converters instanceof ConverterChain) {
             $this->converters = $converters->getConverters();
         }
@@ -64,6 +68,7 @@ class AmpConverter
                 $this->convertTag($tag, $converter);
             }
         }
+
         // Workaround 2 Working for 53
         // https://stackoverflow.com/questions/5706086/php-domdocument-output-without-xml-version-1-0-encoding-utf-8
         // $output = $document->saveXML($document->documentElement->firstChild->firstChild); // still not working
@@ -81,8 +86,11 @@ class AmpConverter
             $output .= $document->saveHTML($child);
         }
 
-        $output = preg_replace("/style=[\"'][\w\s:;%-\.]*[\"']/", ' ', $output);
-        return trim($output, " \t\n\r\0\x0B");
+        if($output && $this->cleaner) {
+            $output = $this->cleaner->clean($output);
+        }
+
+        return $output;
 
     }
 

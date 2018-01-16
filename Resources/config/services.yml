@@ -6,7 +6,12 @@ services:
     #     class: Elephantly\AmpConverterBundle\Converter\Common\AmpScriptDeleter
     #     tags:
     #         - { name: elephanty.amp_converter }
+    ############################ CLEANER ###################################
 
+    elephanty.amp_tag_cleaner:
+        class: Elephantly\AmpConverterBundle\Cleaner\Common\AmpTagCleaner
+        tags:
+            - { name: elephanty.amp_cleaner }
 
     ############################# MEDIA ####################################
 
@@ -14,7 +19,7 @@ services:
         class: Elephantly\AmpConverterBundle\Converter\Media\AmpImgConverter
         tags:
             - { name: elephanty.amp_converter }
-    
+
     elephantly.amp_brightcove_video_converter:
         class: Elephantly\AmpConverterBundle\Converter\Media\AmpBrightcoveVideoConverter
         tags:
@@ -39,7 +44,7 @@ services:
         class: Elephantly\AmpConverterBundle\Converter\Media\AmpDailymotionIframeConverter
         tags:
             - { name: elephanty.amp_converter }
-    
+
     elephantly.amp_vimeo_iframe_converter:
         class: Elephantly\AmpConverterBundle\Converter\Media\AmpVimeoIframeConverter
         tags:
@@ -51,7 +56,7 @@ services:
             - { name: elephanty.amp_converter }
 
     ############################# SOCIAL ####################################
-    
+
     elephantly.amp_twitter_converter:
         class: Elephantly\AmpConverterBundle\Converter\Social\AmpTwitterConverter
         tags:
@@ -61,7 +66,7 @@ services:
         class: Elephantly\AmpConverterBundle\Converter\Social\AmpInstagramConverter
         tags:
             - { name: elephanty.amp_converter }
-    
+
     elephantly.amp_facebook_iframe_converter:
         class: Elephantly\AmpConverterBundle\Converter\Social\AmpFacebookIframeConverter
         tags:
