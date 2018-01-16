@@ -8,7 +8,7 @@ services:
     #         - { name: elephanty.amp_converter }
     ############################ CLEANER ###################################
 
-    elephanty.amp_tag_cleaner:
+    elephantly.amp_tag_cleaner:
         class: Elephantly\AmpConverterBundle\Cleaner\Common\AmpTagCleaner
         tags:
             - { name: elephanty.amp_cleaner }
