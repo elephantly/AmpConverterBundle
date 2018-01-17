@@ -16,7 +16,7 @@ class AmpTagCleaner
     {
 
         foreach ($this->illegalAttributes as $attribute) {
-            $input = preg_replace("/".$attribute."=[\"'][\w\s:;%-\.]*[\"'][[:space:]]*/", '', $input);
+            $input = preg_replace("/".$attribute."=[\"'][\w\s:;!?#-\.]*[\"'][[:space:]]*/", '', $input);
         }
 
         return trim($input, " \t\n\r\0\x0B");
