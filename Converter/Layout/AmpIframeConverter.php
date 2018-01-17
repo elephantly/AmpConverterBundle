@@ -57,6 +57,13 @@ class AmpIframeConverter extends AmpTagConverter implements AmpTagConverterInter
             $this->outputElement->setAttribute('src', $srcCorrected);
         }
 
+        if (preg_match('/%/', $this->outputElement->getAttribute('width'))) {
+            $this->outputElement->setAttribute('width', $this->getDefaultValue());
+        }
+        if (preg_match('/%/', $this->outputElement->getAttribute('height'))) {
+            $this->outputElement->setAttribute('height', $this->getDefaultValue());
+        }
+
     }
 
     public static function getIdentifier()

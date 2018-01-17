@@ -52,7 +52,7 @@ class AmpTagConverter
         $this->outputElement = $this->inputElement->ownerDocument->createElement($this->getAmpTagName());
         foreach ($this->inputElement->attributes as $attrName => $attrNode) {
             if ($this->canBeConverted($attrName)) {
-                 $this->outputElement->setAttribute($attrName, $attrNode->value);
+                $this->outputElement->setAttribute($attrName, $attrNode->value);
             }
         }
 
