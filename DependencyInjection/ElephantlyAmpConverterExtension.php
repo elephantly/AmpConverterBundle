@@ -27,6 +27,11 @@ class ElephantlyAmpConverterExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
+        $converterDefinition = new Definition('Elephantly\AmpConverterBundle\Cleaner\AmpTagCleaner');
+        $converterDefinition
+           ->setArguments(array($config));
+        $container->setDefinition('elephantly.amp_tag_cleaner', $converterDefinition);
+
         $converterDefinition = new Definition('Elephantly\AmpConverterBundle\Converter\AmpConverter');
         $converterDefinition
            ->setArguments(array(

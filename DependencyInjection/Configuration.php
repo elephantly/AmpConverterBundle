@@ -34,7 +34,9 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('follow_label')->defaultValue('Follow us')->end()
                     ->end()
                 ->end()
-                ->scalarNode('illegal')->defaultValue(array('script', 'div#fb-root'))->end()
+                ->scalarNode('illegal_tags')->defaultValue(array())->end()
+                ->scalarNode('illegal_attributes')->defaultValue(array())->end()
+                ->scalarNode('illegal_tag_attributes')->defaultValue(array())->end()
                 ->booleanNode('remove_incorrect_tags')->defaultValue(true)->end()
             ->end()
         ;

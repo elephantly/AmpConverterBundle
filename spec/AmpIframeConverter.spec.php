@@ -4,6 +4,8 @@ require __DIR__.'./../vendor/autoload.php';
 
 use Elephantly\AmpConverterBundle\Converter\AmpConverter;
 use Elephantly\AmpConverterBundle\spec\TestConfig;
+use Elephantly\AmpConverterBundle\Cleaner\AmpTagCleaner;
+
 
 /**
 * primary @author purplebabar(lalung.alexandre@gmail.com)
@@ -11,7 +13,7 @@ use Elephantly\AmpConverterBundle\spec\TestConfig;
 describe("Converter", function() {
     context("Regular", function() {
         beforeAll(function() {
-            $this->_amp = new AmpConverter(array('iframe' => 'Elephantly\AmpConverterBundle\Converter\Layout\AmpIframeConverter'), TestConfig::$options);
+            $this->_amp = new AmpConverter(TestConfig::$converters, TestConfig::$options, new AmpTagCleaner(TestConfig::$options));
             $this->_tag = '<iframe title="exemple 1 avec iframe" src="https://mdn-samples.mozilla.org/snippets/html/iframe-simple-contents.html" width="100%" height="300"><p>Your browser does not support iframes.</p></iframe>';
         });
         describe("convert()", function() {

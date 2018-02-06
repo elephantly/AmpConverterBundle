@@ -4,6 +4,8 @@ require __DIR__.'./../vendor/autoload.php';
 
 use Elephantly\AmpConverterBundle\Converter\AmpConverter;
 use Elephantly\AmpConverterBundle\spec\TestConfig;
+use Elephantly\AmpConverterBundle\Cleaner\AmpTagCleaner;
+
 
 /**
 * primary @author purplebabar(lalung.alexandre@gmail.com)
@@ -11,7 +13,7 @@ use Elephantly\AmpConverterBundle\spec\TestConfig;
 describe("Converter", function() {
     context("Regular", function() {
         beforeAll(function() {
-            $this->_amp = new AmpConverter(array('img' => 'Elephantly\AmpConverterBundle\Converter\Media\AmpImgConverter'), TestConfig::$options);
+            $this->_amp = new AmpConverter(TestConfig::$converters, TestConfig::$options, new AmpTagCleaner(TestConfig::$options));
         });
         describe("convert()", function() {
             it("converts to string", function() {

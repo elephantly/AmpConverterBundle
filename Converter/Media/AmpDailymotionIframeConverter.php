@@ -47,7 +47,7 @@ class AmpDailymotionIframeConverter extends AmpTagConverter implements AmpTagCon
 
         $src = $this->inputElement->getAttribute('src');
         $dmUrl = parse_url($src);
-        parse_str($dmUrl['query'], $dmUrl);
+        parse_str(html_entity_decode($dmUrl['query']), $dmUrl);
 
         foreach ($dmUrl as $key => $value) {
             $prefix = 'data-param-';

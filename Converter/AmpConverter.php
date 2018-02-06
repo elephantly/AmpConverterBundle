@@ -42,22 +42,6 @@ class AmpConverter
 
         $document = $this->getDom($input);
 
-        // delete illegal if illegals are specified
-        if (isset($this->options['illegal'])) {
-            foreach ($this->options['illegal'] as $selector) {
-                // if body exists, select all illegal elements inside of it
-                $bodyExists = $this->getMatchingTags($document, 'body');
-                if ($bodyExists->length) {
-                    $selector = 'body '.$selector;
-                }
-
-                $tags = $this->getMatchingTags($document, $selector);
-                foreach ($tags as $tag) {
-                    $this->deleteTag($tag);
-                }
-            }
-        }
-
         // convert Tags
         foreach ($this->converters as $selector => $converterClass) {
             $tags = $this->getMatchingTags($document, $selector);
@@ -68,6 +52,13 @@ class AmpConverter
                 $this->convertTag($tag, $converter);
             }
         }
+
+        // Clean Tags
+        if($document && $this->cleaner) {
+            $document = $this->cleaner->cleanIllegalTagAttributes($document);
+            $document = $this->cleaner->cleanIllegalTags($document);
+        }
+
 
         // Workaround 2 Working for 53
         // https://stackoverflow.com/questions/5706086/php-domdocument-output-without-xml-version-1-0-encoding-utf-8
@@ -87,7 +78,7 @@ class AmpConverter
         }
 
         if($output && $this->cleaner) {
-            $output = $this->cleaner->clean($output);
+            $output = $this->cleaner->cleanillegalAttributes($output);
         }
 
         return $output;
