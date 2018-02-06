@@ -26,7 +26,7 @@ class AmpDailymotionIframeConverter extends AmpTagConverter implements AmpTagCon
         switch ($attribute) {
             case 'data-videoid':
                 $src = $this->inputElement->getAttribute('src');
-                preg_match('/video\/([\w-]*)/', $src, $matches);
+                preg_match('/video\/([\w-]*[^_?#&]+)/', $src, $matches);
 
                 if (isset($matches[1])) {
                     return $matches[1];

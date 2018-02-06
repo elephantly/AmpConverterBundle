@@ -59,6 +59,9 @@ class AmpTagCleaner
                 $matchingTags = $this->getMatchingTags($input, $selector);
                 foreach ($matchingTags as $wrongTag) {
                     $wrongTag->removeAttribute($tagAttribute);
+                    if (strpos($tagAttribute,'=')) {
+                        $wrongTag->removeAttribute(explode('=', $tagAttribute)[0]);
+                    }
                 }
             }
         }

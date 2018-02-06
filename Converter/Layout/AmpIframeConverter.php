@@ -63,10 +63,6 @@ class AmpIframeConverter extends AmpTagConverter implements AmpTagConverterInter
         if (preg_match('/%/', $this->outputElement->getAttribute('height'))) {
             $this->outputElement->setAttribute('height', $this->getDefaultValue('height'));
         }
-        // TODO
-        // 'frameborder',
-        // 'allowfullscreen',
-
     }
 
     public static function getIdentifier()

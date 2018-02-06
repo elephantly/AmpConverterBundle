@@ -26,10 +26,14 @@ class AmpYoutubeIframeConverter extends AmpTagConverter implements AmpTagConvert
         switch ($attribute) {
             case 'data-videoid':
                 $src = $this->inputElement->getAttribute('src');
-                preg_match('/embed\/([\w-]*)|\?v=([\w-]*)/', $src, $matches);
-
-                if (isset($matches[1])) {
-                    return $matches[1];
+                preg_match('/(embed)\/*([\w-]*)|(watch)\?v=([\w-]*)/', $src, $matches);
+                switch (count($matches)) {
+                    case 3:
+                        return $matches[2];
+                        break;
+                    case 5:
+                        return $matches[4];
+                        break;
                 }
                 return null;
             default:

@@ -57,7 +57,7 @@ class AmpTagConverter
         }
 
         foreach ($this->getMandatoryAttributes() as $mandatoryAttribute) {
-            if (!$this->outputElement->hasAttribute($mandatoryAttribute)) {
+            if (!$this->outputElement->hasAttribute($mandatoryAttribute) || ($this->outputElement->hasAttribute($mandatoryAttribute) && empty($this->outputElement->getAttribute($mandatoryAttribute))) ) {
                 if ($attributeDefaultValue = $this->getDefaultValue($mandatoryAttribute, $this->inputElement)) {
                     $this->outputElement->setAttribute($mandatoryAttribute,$attributeDefaultValue);
                 }

@@ -14,21 +14,18 @@ describe("Converter", function() {
     context("Regular", function() {
         beforeAll(function() {
             $this->_amp = new AmpConverter(TestConfig::$converters, TestConfig::$options, new AmpTagCleaner(TestConfig::$options));
-            $this->_tag = '<iframe frameborder="0" width="480" height="270" data-info="0"
-src="//www.dailymotion.com/embed/video/xwr14q?autoplay=1&mute=1&syndication=123456"
-allowfullscreen></iframe>';
+            $this->_tag = '<iframe width="560" height="315" src="https://www.youtube.com/watch?v=N1w-hDiJ4dM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+            $this->_tagBis = '<iframe width="560" height="315" src="https://www.youtube.com/embed/N1w-hDiJ4dM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
         });
         describe("convert()", function() {
             it("converts to string", function() {
                 expect($this->_amp->convert($this->_tag))->toBeA('string');
             });
             it("converts to valid amp", function() {
-                expect($this->_amp->convert($this->_tag))->toBe('<amp-dailymotion width="480" height="270" data-info="false" data-videoid="xwr14q" autoplay="1" data-mute="1" data-param-syndication="123456"></amp-dailymotion>');
+                expect($this->_amp->convert($this->_tag))->toBe('<amp-youtube width="560" height="315" data-videoid="N1w-hDiJ4dM"></amp-youtube>');
             });
             it("converts to valid amp", function() {
-                expect($this->_amp->convert('<iframe frameborder="0" width="480" height="270" data-info="0"
-    src="//www.dailymotion.com/embed/video/xwr14q_?autoplay=1&mute=1&syndication=123456"
-    allowfullscreen></iframe>'))->toBe('<amp-dailymotion width="480" height="270" data-info="false" data-videoid="xwr14q" autoplay="1" data-mute="1" data-param-syndication="123456"></amp-dailymotion>');
+                expect($this->_amp->convert($this->_tagBis))->toBe('<amp-youtube width="560" height="315" data-videoid="N1w-hDiJ4dM"></amp-youtube>');
             });
         });
     });
