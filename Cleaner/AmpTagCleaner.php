@@ -20,7 +20,7 @@ class AmpTagCleaner
                                                 'onclick',
                                                 'onmouseover'));
 
-        $this->illegalTagAttributes = array_merge($config['illegal_tag_attributes'], array());
+        $this->illegalTagAttributes = array_merge_recursive($config['illegal_tag_attributes'], array());
 
         $this->illegalTags = array_merge($config['illegal_tags'], array('script', 'div#fb-root'));
     }
