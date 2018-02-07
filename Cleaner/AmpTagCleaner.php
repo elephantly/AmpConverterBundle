@@ -60,7 +60,8 @@ class AmpTagCleaner
                 foreach ($matchingTags as $wrongTag) {
                     $wrongTag->removeAttribute($tagAttribute);
                     if (strpos($tagAttribute,'=')) {
-                        $wrongTag->removeAttribute(explode('=', $tagAttribute)[0]);
+                        $tagAttributeName = explode('=', $tagAttribute);
+                        $wrongTag->removeAttribute($tagAttributeName[0]);
                     }
                 }
             }
