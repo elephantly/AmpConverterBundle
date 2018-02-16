@@ -39,7 +39,7 @@ class AmpInstagramConverter extends AmpTagConverter implements AmpTagConverterIn
                 $shortcode = $ids[1];
                 return $shortcode;
             case 'width':
-                return $this->oembed['width'];
+                return $this->oembed['width'] ? $this->oembed['width'] : 658;
             case 'height':
                 return $this->oembed['height'] ? $this->oembed['height'] : 400;
             default:

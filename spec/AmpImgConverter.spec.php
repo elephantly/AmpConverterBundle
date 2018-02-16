@@ -40,7 +40,7 @@ describe("Converter", function() {
             it("converts to string", function() {
                 expect($this->_amp->convert('<img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Cardi-puppy-head.gif">'))->toBe('<amp-anim src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Cardi-puppy-head.gif" layout="responsive" width="45" height="45"></amp-anim>');
             });
-            it("emoves attributes if empty", function() {
+            it("removes attributes if empty", function() {
                 expect($this->_amp->convert('<img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Cardi-puppy-head.gif" height="">'))->toBe('<amp-anim src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Cardi-puppy-head.gif" height="45" layout="responsive" width="45"></amp-anim>');
             });
         });

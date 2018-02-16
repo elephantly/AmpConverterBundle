@@ -29,7 +29,10 @@ class AmpPinterestConverter extends AmpTagConverter implements AmpTagConverterIn
             case 'height':
                 return 380;
             case 'data-do':
-                return $this->inputElement->getAttribute('data-pin-do');
+                if ($this->inputElement->getAttribute('data-pin-do')) {
+                    return $this->inputElement->getAttribute('data-pin-do');
+                }
+                return 'embedPin';
             default:
                 return null;
         }

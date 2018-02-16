@@ -7,6 +7,7 @@ use Elephantly\AmpConverterBundle\Converter\AmpTagConverter;
 use DOMNode;
 use DOMXPath;
 use Elephantly\AmpConverterBundle\Client\OEmbedClient;
+use Elephantly\AmpConverterBundle\Cleaner\AmpDimensionsCleaner;
 
 /**
 * primary @author purplebabar(lalung.alexandre@gmail.com)
@@ -43,11 +44,20 @@ class AmpIframeConverter extends AmpTagConverter implements AmpTagConverterInter
     public function callback()
     {
         $this->outputElement->setAttribute('sandbox', 'allow-scripts allow-same-origin');
+
+        if (!AmpDimensionsCleaner::isLegal($this->outputElement->getAttribute('width'))) {
+            $this->outputElement->setAttribute('width', $this->getDefaultValue('width'));
+        }
+        if (!AmpDimensionsCleaner::isLegal($this->outputElement->getAttribute('height'))) {
+            $this->outputElement->setAttribute('height', $this->getDefaultValue('height'));
+        }
+
         $src = $this->outputElement->getAttribute('src');
         if (!$src) {
             $this->outputElement = null;
         }
         if (!preg_match('/^https/', $src)) {
+            $srcCorrected = null;
             if (preg_match('/^http/', $src)) {
                 $srcCorrected = str_replace('http', 'https', $src);
             }
@@ -55,13 +65,9 @@ class AmpIframeConverter extends AmpTagConverter implements AmpTagConverterInter
                 $srcCorrected = 'https:'.$src;
             }
             $this->outputElement->setAttribute('src', $srcCorrected);
-        }
-
-        if (preg_match('/%/', $this->outputElement->getAttribute('width'))) {
-            $this->outputElement->setAttribute('width', $this->getDefaultValue('width'));
-        }
-        if (preg_match('/%/', $this->outputElement->getAttribute('height'))) {
-            $this->outputElement->setAttribute('height', $this->getDefaultValue('height'));
+            if (!$srcCorrected) {
+                $this->outputElement = null;
+            }
         }
     }
 

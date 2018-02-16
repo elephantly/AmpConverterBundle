@@ -7,6 +7,7 @@ use Elephantly\AmpConverterBundle\Converter\AmpTagConverter;
 use DOMNode;
 use DOMXPath;
 use Elephantly\AmpConverterBundle\Client\OEmbedClient;
+use Elephantly\AmpConverterBundle\Cleaner\AmpDimensionsCleaner;
 
 /**
 * primary @author purplebabar(lalung.alexandre@gmail.com)
@@ -36,6 +37,10 @@ class AmpYoutubeIframeConverter extends AmpTagConverter implements AmpTagConvert
                         break;
                 }
                 return null;
+            case 'width':
+                return 560;
+            case 'height':
+                return 315;
             default:
                 return null;
         }
@@ -43,11 +48,21 @@ class AmpYoutubeIframeConverter extends AmpTagConverter implements AmpTagConvert
 
     public function setup()
     {
+        if (!$this->getDefaultValue('data-videoid')) {
+            $this->isInputValid = false;
+        }
 
     }
 
     public function callback()
     {
+
+        $isConsistent = (AmpDimensionsCleaner::isLegal($this->outputElement->getAttribute('width')) && AmpDimensionsCleaner::isLegal($this->outputElement->getAttribute('height')));
+
+        if (!$isConsistent) {
+            $this->outputElement->setAttribute('width', $this->getDefaultValue('width'));
+            $this->outputElement->setAttribute('height', $this->getDefaultValue('height'));
+        }
 
     }
 

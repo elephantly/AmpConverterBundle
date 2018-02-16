@@ -20,6 +20,8 @@ class TestConfig
                                     'iframe[src*="youtube.com"]' => 'Elephantly\AmpConverterBundle\Converter\Media\AmpYoutubeIframeConverter',
                                     'iframe' => 'Elephantly\AmpConverterBundle\Converter\Layout\AmpIframeConverter',
                                     'img' => 'Elephantly\AmpConverterBundle\Converter\Media\AmpImgConverter',
-                                    'blockquote.twitter-tweet' => 'Elephantly\AmpConverterBundle\Converter\Social\AmpTwitterConverter');
+                                    'blockquote.twitter-tweet' => 'Elephantly\AmpConverterBundle\Converter\Social\AmpTwitterConverter',
+                                    'blockquote.instagram-media' => 'Elephantly\AmpConverterBundle\Converter\Social\AmpInstagramConverter',
+                                    'a[href*="pinterest.com"]' => 'Elephantly\AmpConverterBundle\Converter\Social\AmpPinterestConverter');
 
 }

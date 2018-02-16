@@ -7,6 +7,7 @@ use Elephantly\AmpConverterBundle\Converter\AmpTagConverter;
 use DOMNode;
 use DOMXPath;
 use Elephantly\AmpConverterBundle\Client\OEmbedClient;
+use Elephantly\AmpConverterBundle\Cleaner\AmpDimensionsCleaner;
 
 /**
 * primary @author purplebabar(lalung.alexandre@gmail.com)
@@ -29,9 +30,13 @@ class AmpDailymotionIframeConverter extends AmpTagConverter implements AmpTagCon
                 preg_match('/video\/([\w-]*[^_?#&]+)/', $src, $matches);
 
                 if (isset($matches[1])) {
-                    return $matches[1];
+                    return trim($matches[1]);
                 }
                 return null;
+            case 'width':
+                return 480;
+            case 'height':
+                return 270;
             default:
                 return null;
         }
@@ -39,12 +44,20 @@ class AmpDailymotionIframeConverter extends AmpTagConverter implements AmpTagCon
 
     public function setup()
     {
-
+        if (!$this->getDefaultValue('data-videoid')) {
+            $this->isInputValid = false;
+        }
     }
 
     public function callback()
     {
+        $isConsistent = (AmpDimensionsCleaner::isLegal($this->outputElement->getAttribute('width')) && AmpDimensionsCleaner::isLegal($this->outputElement->getAttribute('height')));
 
+        if (!$isConsistent) {
+            $this->outputElement->setAttribute('width', $this->getDefaultValue('width'));
+            $this->outputElement->setAttribute('height', $this->getDefaultValue('height'));
+        }
+        
         $src = $this->inputElement->getAttribute('src');
         $dmUrl = parse_url($src);
         parse_str(html_entity_decode($dmUrl['query']), $dmUrl);

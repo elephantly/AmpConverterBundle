@@ -14,7 +14,7 @@ describe("Converter", function() {
     context("Regular", function() {
         beforeAll(function() {
             $this->_amp = new AmpConverter(TestConfig::$converters, TestConfig::$options, new AmpTagCleaner(TestConfig::$options));
-            $this->_tag = '<iframe frameborder="0" width="480" height="270" data-info="0"
+            $this->_tag = '<iframe frameborder="0" width="100%" height="270" data-info="0"
 src="//www.dailymotion.com/embed/video/xwr14q?autoplay=1&mute=1&syndication=123456"
 allowfullscreen></iframe>';
         });

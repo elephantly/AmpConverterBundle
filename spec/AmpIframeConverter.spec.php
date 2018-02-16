@@ -16,6 +16,7 @@ describe("Converter", function() {
             $this->_amp = new AmpConverter(TestConfig::$converters, TestConfig::$options, new AmpTagCleaner(TestConfig::$options));
             $this->_tag = '<iframe title="exemple 1 avec iframe" src="https://mdn-samples.mozilla.org/snippets/html/iframe-simple-contents.html" width="100%" height="300"><p>Your browser does not support iframes.</p></iframe>';
             $this->_tagBis = '<iframe title="exemple 1 avec iframe" src="https://mdn-samples.mozilla.org/snippets/html/iframe-simple-contents.html" width="" height="300"><p>Your browser does not support iframes.</p></iframe>';
+            $this->_tagTer = '<iframe src=" une nouvelle vidéo?syndication=111791&logo=0&info=0&quality=720"></iframe>';
         });
         describe("convert()", function() {
             it("converts to string", function() {
@@ -26,6 +27,9 @@ describe("Converter", function() {
             });
             it("delete empty attributes", function() {
                 expect($this->_amp->convert($this->_tagBis))->toBe('<amp-iframe src="https://mdn-samples.mozilla.org/snippets/html/iframe-simple-contents.html" width="500" height="300" layout="responsive" sandbox="allow-scripts allow-same-origin"></amp-iframe>');
+            });
+            it("delete empty attributes", function() {
+                expect($this->_amp->convert($this->_tagTer))->toBeEmpty();
             });
         });
     });

@@ -14,18 +14,14 @@ describe("Converter", function() {
     context("Regular", function() {
         beforeAll(function() {
             $this->_amp = new AmpConverter(TestConfig::$converters, TestConfig::$options, new AmpTagCleaner(TestConfig::$options));
-            $this->_tag = '<iframe width="560" height="315" src="https://www.youtube.com/watch?v=N1w-hDiJ4dM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
-            $this->_tagBis = '<iframe width="100%" height="315" src="https://www.youtube.com/embed/N1w-hDiJ4dM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+            $this->_tag = '<a data-pin-do="embedPin" href="https://www.pinterest.com/pin/345018021446184758/"></a>';
         });
         describe("convert()", function() {
             it("converts to string", function() {
                 expect($this->_amp->convert($this->_tag))->toBeA('string');
             });
             it("converts to valid amp", function() {
-                expect($this->_amp->convert($this->_tag))->toBe('<amp-youtube width="560" height="315" data-videoid="N1w-hDiJ4dM"></amp-youtube>');
-            });
-            it("converts to valid amp", function() {
-                expect($this->_amp->convert($this->_tagBis))->toBe('<amp-youtube width="560" height="315" data-videoid="N1w-hDiJ4dM"></amp-youtube>');
+                expect($this->_amp->convert($this->_tag))->toBe('<amp-pinterest data-do="embedPin" width="236" height="380" data-url="https://www.pinterest.com/pin/345018021446184758/"></amp-pinterest>');
             });
         });
     });
