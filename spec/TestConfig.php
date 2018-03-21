@@ -13,6 +13,7 @@ class TestConfig
         'illegal_tag_attributes' => array('a' => array('shape', 'target=blank'), 'p' => array('type', 'channel'), 'li'=>array('value')),
         'illegal_attributes' => array('allowfullscreen', 'frameborder'),
         'pinterest' => array('follow_label' => 'Follow us'),
+        'iframe' => array('sandbox' => 'allow-scripts allow-same-origin'),
         'remove_incorrect_tags' => true
     );
 

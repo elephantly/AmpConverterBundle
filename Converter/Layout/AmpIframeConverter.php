@@ -43,7 +43,7 @@ class AmpIframeConverter extends AmpTagConverter implements AmpTagConverterInter
 
     public function callback()
     {
-        $this->outputElement->setAttribute('sandbox', 'allow-scripts allow-same-origin');
+        $this->outputElement->setAttribute('sandbox', isset($this->options['sandbox']) ? $this->options['sandbox'] : '');
 
         if (!AmpDimensionsCleaner::isLegal($this->outputElement->getAttribute('width'))) {
             $this->outputElement->setAttribute('width', $this->getDefaultValue('width'));

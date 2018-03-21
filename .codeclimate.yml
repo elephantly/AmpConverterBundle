@@ -4,11 +4,23 @@ engines:
         config:
             file_extensions: "php,inc,lib"
             standard: "PSR1,PSR2"
+            ignore_warnings: true
     phpmd:
         enabled: true
         config:
             file_extensions: "php,inc,lib"
+            ignore_warnings: true
+    sonar-php:
+        enabled: true
+        config:
+          minimum_severity: critical
 
 ratings:
     paths:
     - "**.php"
+
+exclude_patterns:
+- "Cleaner/"
+- "spec/"
+- "vendor/"
+- "node_modules/"
