@@ -7,73 +7,73 @@ services:
     elephantly.amp_img_converter:
         class: Elephantly\AmpConverterBundle\Converter\Media\AmpImgConverter
         tags:
-            - { name: elephanty.amp_converter }
+            - { name: elephantly.amp_converter }
 
     elephantly.amp_brightcove_video_converter:
         class: Elephantly\AmpConverterBundle\Converter\Media\AmpBrightcoveVideoConverter
         tags:
-            - { name: elephanty.amp_converter }
+            - { name: elephantly.amp_converter }
 
     elephantly.amp_video_converter:
         class: Elephantly\AmpConverterBundle\Converter\Media\AmpVideoConverter
         tags:
-            - { name: elephanty.amp_converter }
+            - { name: elephantly.amp_converter }
 
     elephantly.amp_audio_converter:
         class: Elephantly\AmpConverterBundle\Converter\Media\AmpAudioConverter
         tags:
-            - { name: elephanty.amp_converter }
+            - { name: elephantly.amp_converter }
 
     elephantly.amp_youtube_iframe_converter:
         class: Elephantly\AmpConverterBundle\Converter\Media\AmpYoutubeIframeConverter
         tags:
-            - { name: elephanty.amp_converter }
+            - { name: elephantly.amp_converter }
 
     elephantly.amp_dailymotion_iframe_converter:
         class: Elephantly\AmpConverterBundle\Converter\Media\AmpDailymotionIframeConverter
         tags:
-            - { name: elephanty.amp_converter }
+            - { name: elephantly.amp_converter }
 
     elephantly.amp_vimeo_iframe_converter:
         class: Elephantly\AmpConverterBundle\Converter\Media\AmpVimeoIframeConverter
         tags:
-            - { name: elephanty.amp_converter }
+            - { name: elephantly.amp_converter }
 
     elephantly.amp_brightcove_iframe_converter:
         class: Elephantly\AmpConverterBundle\Converter\Media\AmpBrightcoveIframeConverter
         tags:
-            - { name: elephanty.amp_converter }
+            - { name: elephantly.amp_converter }
 
     ############################# SOCIAL ####################################
 
     elephantly.amp_twitter_converter:
         class: Elephantly\AmpConverterBundle\Converter\Social\AmpTwitterConverter
         tags:
-            - { name: elephanty.amp_converter }
+            - { name: elephantly.amp_converter }
 
     elephantly.amp_instagram_converter:
         class: Elephantly\AmpConverterBundle\Converter\Social\AmpInstagramConverter
         tags:
-            - { name: elephanty.amp_converter }
+            - { name: elephantly.amp_converter }
 
     elephantly.amp_facebook_iframe_converter:
         class: Elephantly\AmpConverterBundle\Converter\Social\AmpFacebookIframeConverter
         tags:
-            - { name: elephanty.amp_converter }
+            - { name: elephantly.amp_converter }
 
     elephantly.amp_facebook_sdk_converter:
         class: Elephantly\AmpConverterBundle\Converter\Social\AmpFacebookSdkConverter
         tags:
-            - { name: elephanty.amp_converter }
+            - { name: elephantly.amp_converter }
 
     elephantly.amp_pinterest_converter:
         class: Elephantly\AmpConverterBundle\Converter\Social\AmpPinterestConverter
         tags:
-            - { name: elephanty.amp_converter }
+            - { name: elephantly.amp_converter }
 
     ############################# LAYOUT ####################################
 
     elephantly.amp_iframe_converter:
         class: Elephantly\AmpConverterBundle\Converter\Layout\AmpIframeConverter
         tags:
-            - { name: elephanty.amp_converter }
+            - { name: elephantly.amp_converter }

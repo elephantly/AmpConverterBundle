@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Elephantly\AmpConverterBundle\DependencyInjection\Compiler;
 
@@ -15,7 +15,7 @@ class TagConverterCompilerPass implements CompilerPassInterface
         }
 
         $definition = $container->getDefinition('elephantly.converters');
-        $taggedServices = $container->findTaggedServiceIds('elephanty.amp_converter');
+        $taggedServices = $container->findTaggedServiceIds('elephantly.amp_converter');
 
         foreach ($taggedServices as $id => $tags) {
             // foreach ($tags as $attributes) {
